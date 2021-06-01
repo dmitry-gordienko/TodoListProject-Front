@@ -6,17 +6,12 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { TopBarComponent } from './top-bar/top-bar.component';
-import { ProductListComponent } from './product-list/product-list.component';
-import { ProductAlertsComponent } from './product-alerts/product-alerts.component';
-import { ProductDetailsComponent } from './product-details/product-details.component';
-import { CartComponent } from './cart/cart.component';
-import { ShippingComponent } from './shipping/shipping.component';
 import { RegistrationComponent } from './registration/registration.component';
-
-import { CartService } from './cart.service';
 import { LoginComponent } from './login/login.component';
-import { AuthorizationService } from './authorization.service';
 import { MainComponent } from './main/main.component';
+
+import { ConfigurationService } from './configuration.service';
+import { AuthorizationService } from './authorization.service';
 
 @NgModule({
   imports: [
@@ -25,8 +20,6 @@ import { MainComponent } from './main/main.component';
     ReactiveFormsModule,
     RouterModule.forRoot([
       { path: '', component: MainComponent },
-      //{ path: 'products/:productId', component: ProductDetailsComponent },
-      //{ path: 'cart', component: CartComponent},
       { path: 'login', component: LoginComponent },
       { path: 'register', component: RegistrationComponent },
     ])
@@ -34,11 +27,6 @@ import { MainComponent } from './main/main.component';
   declarations: [
     AppComponent,
     TopBarComponent,
-    ProductListComponent,
-    ProductAlertsComponent,
-    ProductDetailsComponent,
-    CartComponent,
-    ShippingComponent,
     RegistrationComponent,
     LoginComponent,
     MainComponent
@@ -46,7 +34,7 @@ import { MainComponent } from './main/main.component';
   bootstrap: [
     AppComponent
   ],
-  providers: [CartService, AuthorizationService]
+  providers: [ ConfigurationService, AuthorizationService ]
 })
 export class AppModule { }
 

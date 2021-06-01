@@ -2,6 +2,8 @@ import { Injectable, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { ConfigurationService } from './configuration.service';
+
 
 export interface IRegistrationRequest {
   username: string;
@@ -19,28 +21,29 @@ export interface ILoginResponse {
   refreshToken: string;
 }
 
-
 @Injectable({
   providedIn: 'root'
 })
 export class AuthorizationService {
-  isAuthorized: boolean = false;
   
-  loginApiUrl: string = 'http://localhost:5000/login';
-  registerApiUrl: string = 'http://localhost:5000/register';
+  public isAuthorized: boolean = false;
 
+  private readonly accessTokenName:string = 'accessToken';
+  private readonly refreshTokenName:string = 'refreshToken';
+  
   constructor(
     private httpClient: HttpClient,
     private router: Router,
-    private location: Location
+    private location: Location,
+    private configuration: ConfigurationService
     ) { }
 
-  ngOnInit() {  }
+  ngOnInit() { }
 
   AuthOnInit()
   {
-    const accessToken = localStorage.getItem('accessToken');
-    const refreshToken = localStorage.getItem('refreshToken');
+    const accessToken = localStorage.getItem(this.accessTokenName);
+    const refreshToken = localStorage.getItem(this.refreshTokenName);
 
     if(accessToken && refreshToken)
       return;
@@ -61,16 +64,23 @@ export class AuthorizationService {
     payload.append('password', loginForm.password);
     
     this.httpClient
-    .post(this.loginApiUrl, payload)
+    .post(this.configuration.apiLoginUrl, payload)
     .subscribe(
       data => {
         let resp = data as ILoginResponse;
-        localStorage.setItem('accessToken', resp.accessToken);
-        localStorage.setItem('refreshToken', resp.refreshToken);
+
+        localStorage.setItem(this.accessTokenName, resp.accessToken);
+        localStorage.setItem(this.refreshTokenName, resp.refreshToken);
+        this.isAuthorized = true;
+        
         console.log('Login success!', data);
+        
         this.router.navigateByUrl('/');
       },
-      error => console.log('Error!', error),
+      error => {
+        this.isAuthorized = false; 
+        console.log('Error!', error);
+      },
     );
   }
 
@@ -82,22 +92,35 @@ export class AuthorizationService {
     payload.append('password', registrationForm.password);
     
     this.httpClient
-    .post(this.registerApiUrl, payload)
+    .post(this.configuration.apiRegisterUrl, payload)
     .subscribe(
       data => {
         let resp = data as ILoginResponse;
-        localStorage.setItem('accessToken', resp.accessToken);
-        localStorage.setItem('refreshToken', resp.refreshToken);
+        
+        localStorage.setItem(this.accessTokenName, resp.accessToken);
+        localStorage.setItem(this.refreshTokenName, resp.refreshToken);
+        
         console.log('Registration success!', data);
+        
         this.router.navigateByUrl('/');
       },
       error => console.log('Error!', error),
     );
   }
 
-  ClearStoredCredentials(){
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('refreshToken');
+  Logout(){
+    this.ClearStoredCredentials();
+    this.router.navigateByUrl('/');
   }
+
+  ClearStoredCredentials(){
+    localStorage.removeItem(this.accessTokenName);
+    localStorage.removeItem(this.refreshTokenName);
+  }
+
+  GetAccessToken(){
+    return localStorage.getItem(this.accessTokenName);
+  }
+
 
 }
