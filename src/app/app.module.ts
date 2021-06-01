@@ -12,6 +12,8 @@ import { MainComponent } from './main/main.component';
 
 import { ConfigurationService } from './configuration.service';
 import { AuthorizationService } from './authorization.service';
+import { TodoListsComponent } from './todo-lists/todo-lists.component';
+import { TodoItemsComponent } from './todo-items/todo-items.component';
 
 @NgModule({
   imports: [
@@ -29,7 +31,9 @@ import { AuthorizationService } from './authorization.service';
     TopBarComponent,
     RegistrationComponent,
     LoginComponent,
-    MainComponent
+    MainComponent,
+    TodoListsComponent,
+    TodoItemsComponent
   ],
   bootstrap: [
     AppComponent

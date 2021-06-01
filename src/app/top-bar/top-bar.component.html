@@ -1,12 +1,12 @@
-<a href="/">
+<a [routerLink]="['/']">
+  
   <h1>Todo list application</h1>
 </a>
 
-<!-- 
-<a routerLink="/cart" class="button fancy-button">
-  <i class="material-icons">shopping_cart</i>Checkout
-</a>
--->
+<div *ngIf="this.authService.isAuthorized" class="button fancy-button" (click)="Logout()" >
+  <i class="material-icons">logout</i>Logout
+</div>
+
 
 <!-- 
 Copyright Google LLC. All Rights Reserved.

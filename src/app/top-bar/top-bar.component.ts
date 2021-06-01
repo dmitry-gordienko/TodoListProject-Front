@@ -1,11 +1,32 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { AuthorizationService } from '../authorization.service';
 
 @Component({
   selector: 'app-top-bar',
   templateUrl: './top-bar.component.html',
   styleUrls: ['./top-bar.component.css']
 })
-export class TopBarComponent {
+export class TopBarComponent implements OnInit{
+
+  private isLoggedIn:boolean = false;
+
+  constructor(
+    public readonly authService: AuthorizationService
+  ) { }
+  
+  Logout()
+  {
+    console.log('Logout top-bar button');  
+    this.authService.Logout();
+  }
+
+  ngOnInit(){
+    if(this.authService.isAuthorized)
+      this.isLoggedIn = true;
+    console.log('Logged in: ', this.isLoggedIn);
+  }
+
+
 
 }
 
