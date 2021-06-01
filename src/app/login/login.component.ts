@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { HttpClient , HttpParams} from '@angular/common/http';
+import { AuthorizationService, ILoginRequest } from '../authorization.service'
 
 @Component({
   selector: 'app-login',
@@ -9,31 +9,28 @@ import { HttpClient , HttpParams} from '@angular/common/http';
 })
 export class LoginComponent implements OnInit {
 
-  apiRegisterUrl: string = 'http://localhost:5000/login';
-  
   loginForm = this.formBuilder.group({
     email: '',
     password:''
   });
   
+  loginData: ILoginRequest = {
+    email: '',
+    password: ''
+  };
+  
   constructor(
       private formBuilder: FormBuilder,
-      private httpClient: HttpClient
+      private authService: AuthorizationService
     ) { }
+  
     
   onSubmit(){
+    
+    this.loginData.email = this.loginForm.get('email')?.value;
+    this.loginData.password = this.loginForm.get('password')?.value;
 
-    const formData = new FormData();
-    formData.append("email", this.loginForm.get('email')?.value);
-    formData.append("password", this.loginForm.get('password')?.value);
-    
-    this.httpClient
-      .post(this.apiRegisterUrl, formData)
-      .subscribe(
-        data => console.log('Success!', data),
-        error => console.log('Error!', error),
-      );
-    
+    this.authService.Login(this.loginData);
   }
   
   ngOnInit(): void {

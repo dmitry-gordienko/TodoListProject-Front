@@ -14,9 +14,9 @@ import { ShippingComponent } from './shipping/shipping.component';
 import { RegistrationComponent } from './registration/registration.component';
 
 import { CartService } from './cart.service';
-import { CredentialsService } from './credentials.service';
 import { LoginComponent } from './login/login.component';
 import { AuthorizationService } from './authorization.service';
+import { MainComponent } from './main/main.component';
 
 @NgModule({
   imports: [
@@ -24,9 +24,9 @@ import { AuthorizationService } from './authorization.service';
     HttpClientModule,
     ReactiveFormsModule,
     RouterModule.forRoot([
-      { path: '', component: ProductListComponent },
-      { path: 'products/:productId', component: ProductDetailsComponent },
-      { path: 'cart', component: CartComponent},
+      { path: '', component: MainComponent },
+      //{ path: 'products/:productId', component: ProductDetailsComponent },
+      //{ path: 'cart', component: CartComponent},
       { path: 'login', component: LoginComponent },
       { path: 'register', component: RegistrationComponent },
     ])
@@ -40,12 +40,13 @@ import { AuthorizationService } from './authorization.service';
     CartComponent,
     ShippingComponent,
     RegistrationComponent,
-    LoginComponent
+    LoginComponent,
+    MainComponent
   ],
   bootstrap: [
     AppComponent
   ],
-  providers: [CartService, CredentialsService, AuthorizationService]
+  providers: [CartService, AuthorizationService]
 })
 export class AppModule { }
 

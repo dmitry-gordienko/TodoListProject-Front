@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CredentialsService } from './credentials.service';
+import { AuthorizationService } from './authorization.service';
 
 @Component({
   selector: 'app-root',
@@ -8,13 +8,12 @@ import { CredentialsService } from './credentials.service';
 })
 export class AppComponent {
 
-  constructor(private credentialservice: CredentialsService){}
-
+  constructor(private authorizationService: AuthorizationService){}
 
   ngOnInit(){
-    this.credentialservice.LoadStoredCredentials();
-    this.credentialservice.LogCredentials();
+    this.authorizationService.AuthOnInit();
   }
+
 }
 
 
