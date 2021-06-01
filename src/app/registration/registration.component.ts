@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { AuthorizationService, IRegistrationRequest } from '../authorization.service'
 
 @Component({
@@ -10,9 +10,9 @@ import { AuthorizationService, IRegistrationRequest } from '../authorization.ser
 export class RegistrationComponent implements OnInit {
 
   registrationForm = this.formBuilder.group({
-    username: '',
-    email: '',
-    password:''
+    username: ['', [Validators.required, Validators.minLength(6)]],
+    email: ['', [Validators.required, Validators.email]],
+    password: ['', [Validators.required, Validators.minLength(6)]]
   });
 
   registrationData: IRegistrationRequest = {

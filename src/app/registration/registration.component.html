@@ -21,6 +21,6 @@
       <input id="password" type="text" formControlName="password" >
     </div>
     
-    <button class="button" type="submit">Register</button>
+    <button class="button" type="submit" [disabled]="!registrationForm.valid">Register</button>
   
   </form>
