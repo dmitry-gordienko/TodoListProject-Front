@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ConfigurationService } from './configuration.service';
+import { ConfigurationService } from '../common/configuration.service';
 
 export interface ITodoList {
   id: number;
@@ -7,8 +7,6 @@ export interface ITodoList {
   totalItemsCount: number;
   doneItemsCount: number;
 }
-
-
 
 
 @Injectable({

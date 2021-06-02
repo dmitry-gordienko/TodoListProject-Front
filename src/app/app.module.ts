@@ -11,17 +11,17 @@ import { ToastrModule } from 'ngx-toastr';
 import { NgxSpinnerModule } from 'ngx-spinner';
 
 import { AppComponent } from './app.component';
-import { TopBarComponent } from './top-bar/top-bar.component';
-import { RegistrationComponent } from './registration/registration.component';
-import { LoginComponent } from './login/login.component';
-import { MainComponent } from './main/main.component';
-import { TodoListsComponent } from './todo-lists/todo-lists.component';
-import { TodoItemsComponent } from './todo-items/todo-items.component';
+import { TopBarComponent } from './components/top-bar/top-bar.component';
+import { RegistrationComponent } from './components/registration/registration.component';
+import { LoginComponent } from './components/login/login.component';
+import { MainComponent } from './components/main/main.component';
+import { TodoListsComponent } from './components/todo-lists/todo-lists.component';
+import { TodoItemsComponent } from './components/todo-items/todo-items.component';
 
-import { ConfigurationService } from './configuration.service';
-import { AuthorizationService } from './authorization.service';
-import { PopUpMessageService } from './pop-up-message.service';
-import { SpinnerServiceService } from './spinner-service.service';
+import { ConfigurationService } from './services/common/configuration.service';
+import { AuthorizationService } from './services/common/authorization.service';
+import { PopUpMessageService } from './services/common/pop-up-message.service';
+import { SpinnerServiceService } from './services/common/spinner-service.service';
 //import { from } from 'rxjs';
 
 

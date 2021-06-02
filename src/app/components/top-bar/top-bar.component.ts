@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthorizationService } from '../authorization.service';
+import { AuthorizationService } from '../../services/common/authorization.service';
 
 @Component({
   selector: 'app-top-bar',
