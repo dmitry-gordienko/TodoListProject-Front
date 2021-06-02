@@ -3,6 +3,9 @@ import { Location } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { ConfigurationService } from './configuration.service';
+import { PopUpMessageService } from './pop-up-message.service';
+
+
 
 
 export interface IRegistrationRequest {
@@ -35,7 +38,8 @@ export class AuthorizationService {
     private httpClient: HttpClient,
     private router: Router,
     private location: Location,
-    private configuration: ConfigurationService
+    private configuration: ConfigurationService,
+    private popUpMsg: PopUpMessageService
     ) { }
 
   ngOnInit() { }
@@ -77,12 +81,20 @@ export class AuthorizationService {
         this.router.navigateByUrl('/');
       },
       error => {
-        this.isAuthorized = false; 
-        console.log('Login error!', error);
+        this.isAuthorized = false;
+        const errorMsg = error.error.Message;
+        console.log('Login error!',  error);
+        //console.log('Error:',  error);
+        //console.log('Error.error:',  error.error);
+        //console.log('Error.error.Message:',  error.error.Message);
+        this.popUpMsg.ShowErrorMsg('Failed to login!', errorMsg );
+        
         //this.router.navigateByUrl('/login');
       },
     );
   }
+
+
 
   Register(registrationForm: IRegistrationRequest)
   {
