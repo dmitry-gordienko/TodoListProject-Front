@@ -1,5 +1,5 @@
 {
-  "name": "proj",
+  "name": "todolistfrontscss",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
@@ -10,7 +10,7 @@
   },
   "private": true,
   "dependencies": {
-    "@angular/animations": "~12.0.2",
+    "@angular/animations": "^12.0.2",
     "@angular/common": "~12.0.2",
     "@angular/compiler": "~12.0.2",
     "@angular/core": "~12.0.2",
