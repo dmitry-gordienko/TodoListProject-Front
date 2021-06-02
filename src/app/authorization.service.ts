@@ -69,29 +69,26 @@ export class AuthorizationService {
       .post(this.configuration.apiLoginUrl, payload)
       .subscribe(
         data => {
-        this.Delay(500).then(()=>{
-          this.spinner.Hide();
           let resp = data as ILoginResponse;
-
           localStorage.setItem(this.accessTokenName, resp.accessToken);
           localStorage.setItem(this.refreshTokenName, resp.refreshToken);
           this.isAuthorized = true;
 
-          console.log('Login success!', data);
-
-          this.router.navigateByUrl('/');
+          this.spinner.HideWithDelay().then(()=>{
+            console.log('Login success!', data);
+            this.router.navigateByUrl('/');
           });
         },
         error => {
-          this.Delay(500).then(()=>{
-            this.spinner.Hide();
-            this.isAuthorized = false;
-            const errorMsg = error.error.Message;
+          
+          this.isAuthorized = false;
+          const errorMsg = error.error.Message;
+          
+          this.spinner.HideWithDelay().then(()=>{
             console.log('Login error!', error);
             this.popUpMsg.ShowErrorMsg('Failed to login!', errorMsg);
           });
-          
-          
+        
         },
       );
   }
@@ -109,24 +106,21 @@ export class AuthorizationService {
       .post(this.configuration.apiRegisterUrl, payload)
       .subscribe(
         data => {
-          this.Delay(500).then(()=>{
-            this.spinner.Hide();
-            let resp = data as ILoginResponse;
+          let resp = data as ILoginResponse;
+          localStorage.setItem(this.accessTokenName, resp.accessToken);
+          localStorage.setItem(this.refreshTokenName, resp.refreshToken);
+          this.isAuthorized = true;
 
-            localStorage.setItem(this.accessTokenName, resp.accessToken);
-            localStorage.setItem(this.refreshTokenName, resp.refreshToken);
-            this.isAuthorized = true;
-
+          this.spinner.HideWithDelay().then(()=>{
             console.log('Registration success!', data);
-
             this.router.navigateByUrl('/');
           });
         },
         error => {
-          this.Delay(500).then(()=>{
-            this.spinner.Hide();
-            this.isAuthorized = false;
-            const errorMsg = error.error.Message;
+          this.isAuthorized = false;
+          const errorMsg = error.error.Message;
+
+          this.spinner.HideWithDelay().then(()=>{
             this.popUpMsg.ShowErrorMsg('Failed to register!', errorMsg);
             //console.log('Registration error!', error);
             //this.router.navigateByUrl('/login');
@@ -161,17 +155,15 @@ export class AuthorizationService {
       .get(this.configuration.apiCheckAuthUrl, { 'headers': headers })
       .subscribe(
         data => {
-          this.Delay(500).then(()=>{
-            this.spinner.Hide();
-            this.isAuthorized = true;
+          this.isAuthorized = true;
+          this.spinner.HideWithDelay().then(()=>{
             console.log('Login success!', data);
             this.router.navigateByUrl('/');
           });
         },
         error => {
-          this.Delay(500).then(()=>{
-            this.spinner.Hide();
-            this.isAuthorized = false;
+          this.isAuthorized = false;
+          this.spinner.HideWithDelay().then(()=>{
             console.log('Login fail!', error);
             this.TryToRefreshToken();
           });
@@ -179,10 +171,6 @@ export class AuthorizationService {
       );
   }
   
-  Delay(ms: number = 500) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-  }
-
   TryToRefreshToken() {
     this.spinner.Show();
     console.log('Trying refresh token...');
@@ -194,29 +182,32 @@ export class AuthorizationService {
       .post(this.configuration.apiRefreshAuthUrl, data)
       .subscribe(
         data => {
-          this.Delay(500).then(()=>{
-            this.spinner.Hide();
-            let resp = data as ILoginResponse;
+          let resp = data as ILoginResponse;
 
-            localStorage.setItem(this.accessTokenName, resp.accessToken);
-            localStorage.setItem(this.refreshTokenName, resp.refreshToken);
-            this.isAuthorized = true;
-
+          localStorage.setItem(this.accessTokenName, resp.accessToken);
+          localStorage.setItem(this.refreshTokenName, resp.refreshToken);
+          this.isAuthorized = true;
+          
+          this.spinner.HideWithDelay().then(()=>{
             console.log('Refresh success!', data);
-
             this.router.navigateByUrl('/');
           });
         },
         error => {
-          this.Delay(500).then(()=>{
-            this.spinner.Hide();
-            this.isAuthorized = false;
+          this.isAuthorized = false;
+
+          this.spinner.HideWithDelay().then(()=>{
             this.router.navigateByUrl('/login');
             console.log('Auth check error!', error);
           });
+        
         },
       );
 
+  }
+
+  Delay(ms: number = 500) {
+    return new Promise(resolve => setTimeout(resolve, ms));
   }
 
 

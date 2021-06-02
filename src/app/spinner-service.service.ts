@@ -28,17 +28,18 @@ export class SpinnerServiceService {
     this.spinner.hide();
   }
 
-  HideWithDelay(milliseconds: number = 1000)
+  async HideWithDelay(milliseconds: number = 1000)
   {
     setTimeout(() =>
     {
       this.Hide();
     },
     milliseconds);
-    //this.Sleep(milliseconds).then(() => this.Hide());
+    await this.Delay(milliseconds);
+    return this.Hide();
   }
   
-  Sleep(ms: number) {
+  Delay(ms: number) {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
 
