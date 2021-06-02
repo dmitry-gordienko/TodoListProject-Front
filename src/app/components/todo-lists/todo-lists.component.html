@@ -1,1 +1,7 @@
-<p>todo-lists works!</p>
+<div class="todo-list-element"*ngFor="let list of lists">{{list.name}} - {{list.totalItemsCount}}/{{list.doneItemsCount}}</div>
+
+<div class="todo-list-control">
+    <br>
+    <input type="text" id="newListName" name="todoList.Name" required placeholder="New list..." />
+    <button id="createTodoListButton" name="createTodoList">Create</button>
+</div>

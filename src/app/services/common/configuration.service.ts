@@ -14,5 +14,8 @@ export class ConfigurationService {
   public readonly apiTodoListsUrl: string = 'http://localhost:5000/api/todoLists';
   public readonly apiTodoItemsUrl: string = 'http://localhost:5000/api/items';
 
+  public readonly accessTokenName: string = 'accessToken';
+  public readonly refreshTokenName: string = 'refreshToken';
+
   constructor() { }
 }
