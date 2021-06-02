@@ -31,7 +31,9 @@
         
         <div *ngIf="loginForm.controls['password'].invalid && (loginForm.controls['password'].dirty || loginForm.controls['password'].touched)" class="alert alert-danger">
           <div class="invalid-feedback" *ngIf="loginForm.controls['password'].errors" style="color: crimson;">
+            <!---
             {{loginForm.controls['password'].errors | json}}
+            -->
             <sup style="color: crimson;">*</sup>Please enter your password
             <br><br>
           </div>
