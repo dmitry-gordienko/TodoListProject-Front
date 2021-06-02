@@ -1,3 +1,7 @@
+<ngx-spinner>
+  <p style="color: white" > Logging in... </p>
+</ngx-spinner>
+
 <div>
   <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
       <div>
@@ -5,6 +9,17 @@
             Email:
           </label>
           <input id="email" name="email" type="text" formControlName="email">
+
+          
+          <div *ngIf="loginForm.controls['email'].invalid && (loginForm.controls['email'].dirty || loginForm.controls['email'].touched)" class="alert alert-danger">
+            
+            <div class="invalid-feedback" *ngIf="loginForm.controls['email'].errors" style="color: crimson;">
+              <sup style="color: crimson;">*</sup>Please enter your email
+              <br><br>
+            </div>
+
+          </div>
+
       </div>
     
       <div>
@@ -12,6 +27,14 @@
           Password:
         </label>
         <input id="password" name="password" type="password" formControlName="password">
+        
+        <div *ngIf="loginForm.controls['password'].invalid && (loginForm.controls['password'].dirty || loginForm.controls['password'].touched)" class="alert alert-danger">
+          <div class="invalid-feedback" *ngIf="loginForm.controls['password'].errors" style="color: crimson;">
+            <sup style="color: crimson;">*</sup>Please enter your password
+            <br><br>
+          </div>
+        </div>
+      
       </div>
       
       <button class="button" type="submit" [disabled]="!loginForm.valid">Login</button>

@@ -4,9 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { ConfigurationService } from './configuration.service';
 import { PopUpMessageService } from './pop-up-message.service';
-
-
-
+import { SpinnerServiceService } from './spinner-service.service';
 
 export interface IRegistrationRequest {
   username: string;
@@ -28,168 +26,196 @@ export interface ILoginResponse {
   providedIn: 'root'
 })
 export class AuthorizationService {
-  
+
   public isAuthorized: boolean = false;
 
-  private readonly accessTokenName:string = 'accessToken';
-  private readonly refreshTokenName:string = 'refreshToken';
-  
+  private readonly accessTokenName: string = 'accessToken';
+  private readonly refreshTokenName: string = 'refreshToken';
+
   constructor(
     private httpClient: HttpClient,
     private router: Router,
     private location: Location,
     private configuration: ConfigurationService,
-    private popUpMsg: PopUpMessageService
-    ) { }
+    private popUpMsg: PopUpMessageService,
+    private spinner: SpinnerServiceService
+  ) { }
 
   ngOnInit() { }
 
-  AuthOnInit()
-  {
+  AuthOnInit() {
     const accessToken = localStorage.getItem(this.accessTokenName);
     const refreshToken = localStorage.getItem(this.refreshTokenName);
 
-    if(accessToken && refreshToken)
+    if (accessToken && refreshToken)
       this.TryToLogin();
-    
-    if(
+
+    if (
       this.location.path() === '/register' ||
       this.location.path() === '/login'
-      )
+    ){
       return;
-    
+    }
+
     this.router.navigateByUrl('/login');
   }
 
-  Login(loginForm: ILoginRequest)
-  {
+  Login(loginForm: ILoginRequest) {
+    this.spinner.Show();
     const payload = new FormData();
     payload.append('email', loginForm.email);
     payload.append('password', loginForm.password);
     this.httpClient
-    .post(this.configuration.apiLoginUrl, payload)
-    .subscribe(
-      data => {
-        let resp = data as ILoginResponse;
+      .post(this.configuration.apiLoginUrl, payload)
+      .subscribe(
+        data => {
+        this.Delay(500).then(()=>{
+          this.spinner.Hide();
+          let resp = data as ILoginResponse;
 
-        localStorage.setItem(this.accessTokenName, resp.accessToken);
-        localStorage.setItem(this.refreshTokenName, resp.refreshToken);
-        this.isAuthorized = true;
-        
-        console.log('Login success!', data);
-        
-        this.router.navigateByUrl('/');
-      },
-      error => {
-        this.isAuthorized = false;
-        const errorMsg = error.error.Message;
-        console.log('Login error!',  error);
-        //console.log('Error:',  error);
-        //console.log('Error.error:',  error.error);
-        //console.log('Error.error.Message:',  error.error.Message);
-        this.popUpMsg.ShowErrorMsg('Failed to login!', errorMsg );
-        
-        //this.router.navigateByUrl('/login');
-      },
-    );
+          localStorage.setItem(this.accessTokenName, resp.accessToken);
+          localStorage.setItem(this.refreshTokenName, resp.refreshToken);
+          this.isAuthorized = true;
+
+          console.log('Login success!', data);
+
+          this.router.navigateByUrl('/');
+          });
+        },
+        error => {
+          this.Delay(500).then(()=>{
+            this.spinner.Hide();
+            this.isAuthorized = false;
+            const errorMsg = error.error.Message;
+            console.log('Login error!', error);
+            this.popUpMsg.ShowErrorMsg('Failed to login!', errorMsg);
+          });
+          
+          
+        },
+      );
   }
 
 
 
-  Register(registrationForm: IRegistrationRequest)
-  {
+  Register(registrationForm: IRegistrationRequest) {
+    this.spinner.Show();
     const payload = new FormData();
     payload.append('username', registrationForm.username);
     payload.append('email', registrationForm.email);
     payload.append('password', registrationForm.password);
-    
+
     this.httpClient
-    .post(this.configuration.apiRegisterUrl, payload)
-    .subscribe(
-      data => {
-        let resp = data as ILoginResponse;
-        
-        localStorage.setItem(this.accessTokenName, resp.accessToken);
-        localStorage.setItem(this.refreshTokenName, resp.refreshToken);
-        this.isAuthorized = true;
-        
-        console.log('Registration success!', data);
-        
-        this.router.navigateByUrl('/');
-      },
-      error => {
-        this.isAuthorized = false;
-        console.log('Registration error!', error);
-        //this.router.navigateByUrl('/login');
-      },
-    );
+      .post(this.configuration.apiRegisterUrl, payload)
+      .subscribe(
+        data => {
+          this.Delay(500).then(()=>{
+            this.spinner.Hide();
+            let resp = data as ILoginResponse;
+
+            localStorage.setItem(this.accessTokenName, resp.accessToken);
+            localStorage.setItem(this.refreshTokenName, resp.refreshToken);
+            this.isAuthorized = true;
+
+            console.log('Registration success!', data);
+
+            this.router.navigateByUrl('/');
+          });
+        },
+        error => {
+          this.Delay(500).then(()=>{
+            this.spinner.Hide();
+            this.isAuthorized = false;
+            const errorMsg = error.error.Message;
+            this.popUpMsg.ShowErrorMsg('Failed to register!', errorMsg);
+            //console.log('Registration error!', error);
+            //this.router.navigateByUrl('/login');
+          });
+        },
+      );
   }
 
-  Logout(){
+  Logout() {
     this.ClearStoredCredentials();
     this.router.navigateByUrl('/login');
   }
 
-  ClearStoredCredentials(){
+  ClearStoredCredentials() {
     localStorage.removeItem(this.accessTokenName);
     localStorage.removeItem(this.refreshTokenName);
     this.isAuthorized = false;
   }
 
-  GetAccessToken(){
+  GetAccessToken() {
     return localStorage.getItem(this.accessTokenName);
   }
 
-  TryToLogin()
-  {
+  TryToLogin() {
+    this.spinner.Show();
     console.log('Trying to login...');
     const accessToken = localStorage.getItem(this.accessTokenName);
     const headers = new HttpHeaders()
-        .set('Authorization', `Bearer ${accessToken}`);
+      .set('Authorization', `Bearer ${accessToken}`);
 
     this.httpClient
-    .get(this.configuration.apiCheckAuthUrl, {'headers': headers})
-    .subscribe(
-      data => {
-        this.isAuthorized = true;
-        console.log('Login success!', data);
-        this.router.navigateByUrl('/');
-      },
-      error => {
-        this.isAuthorized = false;
-        console.log('Login fail!', error);
-        this.TryToRefreshToken();
-      },
-    );
+      .get(this.configuration.apiCheckAuthUrl, { 'headers': headers })
+      .subscribe(
+        data => {
+          this.Delay(500).then(()=>{
+            this.spinner.Hide();
+            this.isAuthorized = true;
+            console.log('Login success!', data);
+            this.router.navigateByUrl('/');
+          });
+        },
+        error => {
+          this.Delay(500).then(()=>{
+            this.spinner.Hide();
+            this.isAuthorized = false;
+            console.log('Login fail!', error);
+            this.TryToRefreshToken();
+          });
+        },
+      );
+  }
+  
+  Delay(ms: number = 500) {
+    return new Promise(resolve => setTimeout(resolve, ms));
   }
 
-  TryToRefreshToken()
-  {
+  TryToRefreshToken() {
+    this.spinner.Show();
     console.log('Trying refresh token...');
     const refreshToken = localStorage.getItem(this.refreshTokenName);
     const data = new FormData();
     data.append('RefreshToken', refreshToken || '');
-    
+
     this.httpClient
-    .post(this.configuration.apiRefreshAuthUrl, data)
-    .subscribe(
-      data => {
-        let resp = data as ILoginResponse;
-        
-        localStorage.setItem(this.accessTokenName, resp.accessToken);
-        localStorage.setItem(this.refreshTokenName, resp.refreshToken);
-        this.isAuthorized = true;
-        
-        console.log('Refresh success!', data);
-        
-        this.router.navigateByUrl('/');
-      },
-      error => {
-        this.isAuthorized = false;
-        this.router.navigateByUrl('/login');
-        console.log('Auth check error!', error);
-      },
-    );
+      .post(this.configuration.apiRefreshAuthUrl, data)
+      .subscribe(
+        data => {
+          this.Delay(500).then(()=>{
+            this.spinner.Hide();
+            let resp = data as ILoginResponse;
+
+            localStorage.setItem(this.accessTokenName, resp.accessToken);
+            localStorage.setItem(this.refreshTokenName, resp.refreshToken);
+            this.isAuthorized = true;
+
+            console.log('Refresh success!', data);
+
+            this.router.navigateByUrl('/');
+          });
+        },
+        error => {
+          this.Delay(500).then(()=>{
+            this.spinner.Hide();
+            this.isAuthorized = false;
+            this.router.navigateByUrl('/login');
+            console.log('Auth check error!', error);
+          });
+        },
+      );
 
   }
 

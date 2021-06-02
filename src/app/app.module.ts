@@ -1,12 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
+//import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 
 import { ToastrModule } from 'ngx-toastr';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 import { AppComponent } from './app.component';
 import { TopBarComponent } from './top-bar/top-bar.component';
@@ -19,7 +21,8 @@ import { TodoItemsComponent } from './todo-items/todo-items.component';
 import { ConfigurationService } from './configuration.service';
 import { AuthorizationService } from './authorization.service';
 import { PopUpMessageService } from './pop-up-message.service';
-import { from } from 'rxjs';
+import { SpinnerServiceService } from './spinner-service.service';
+//import { from } from 'rxjs';
 
 
 
@@ -29,6 +32,7 @@ import { from } from 'rxjs';
     BrowserAnimationsModule,
     CommonModule,
     HttpClientModule,
+    //MatProgressSpinnerModule,
     ReactiveFormsModule,
     RouterModule.forRoot([
       { path: '', component: MainComponent },
@@ -36,7 +40,9 @@ import { from } from 'rxjs';
       { path: 'register', component: RegistrationComponent },
     ]),
     ToastrModule.forRoot(),
+    NgxSpinnerModule,
   ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   declarations: [
 
     AppComponent,
@@ -50,7 +56,7 @@ import { from } from 'rxjs';
   bootstrap: [
     AppComponent
   ],
-  providers: [ ConfigurationService, AuthorizationService, PopUpMessageService ]
+  providers: [ ConfigurationService, AuthorizationService, PopUpMessageService, SpinnerServiceService ]
 })
 export class AppModule { }
 

@@ -1,3 +1,7 @@
+<ngx-spinner>
+  <p style="color: white" > Registration in progress... </p>
+</ngx-spinner>
+
 <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
 
     <div>
@@ -5,20 +9,46 @@
         User name:
       </label>
       <input id="username" type="text" formControlName="username" >
+      
+      <!-- Validation highlight -->
+      <div *ngIf="registrationForm.controls['username'].invalid && (registrationForm.controls['username'].dirty || registrationForm.controls['username'].touched)" class="alert alert-danger">
+        <div class="invalid-feedback" *ngIf="registrationForm.controls['username'].errors" style="color: crimson;">
+          <sup style="color: crimson;">*</sup>Please enter your username
+          <br><br>
+        </div>
+    </div>
+
     </div>
 
     <div>
-        <label for="email">
-          Email:
-        </label>
-        <input id="email" type="text" formControlName="email" >
+      <label for="email">
+        Email:
+      </label>
+      <input id="email" type="text" formControlName="email" >
+
+      <!-- Validation highlight -->
+      <div *ngIf="registrationForm.controls['email'].invalid && (registrationForm.controls['email'].dirty || registrationForm.controls['email'].touched)" class="alert alert-danger">
+        <div class="invalid-feedback" *ngIf="registrationForm.controls['email'].errors" style="color: crimson;">
+          <sup style="color: crimson;">*</sup>Please enter your email
+          <br><br>
+        </div>
       </div>
+
+    </div>
   
     <div>
       <label for="password">
         Password:
       </label>
       <input id="password" type="text" formControlName="password" >
+      
+      <!-- Validation highlight -->
+      <div *ngIf="registrationForm.controls['password'].invalid && (registrationForm.controls['password'].dirty || registrationForm.controls['password'].touched)" class="alert alert-danger">
+        <div class="invalid-feedback" *ngIf="registrationForm.controls['password'].errors" style="color: crimson;">
+          <sup style="color: crimson;">*</sup>Please enter your password
+          <br><br>
+        </div>
+      </div>
     </div>
     
     <button class="button" type="submit" [disabled]="!registrationForm.valid">Register</button>
