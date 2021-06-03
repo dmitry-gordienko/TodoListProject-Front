@@ -27,13 +27,9 @@ export class TodoListsComponent implements OnInit {
     
     this.todoListService.GetCollectionTmp()
       .subscribe(lists => {
-        //console.log('1 ',this.lists);
-        //console.log('2', lists);
         this.lists = lists;
-        //console.log('3', this.lists);
       });
       //this.todoListService.GetCollectionTmp().subscribe(lists => this.lists = lists);
-    //console.log('Lists component:', this.lists);
   }
 
 }
