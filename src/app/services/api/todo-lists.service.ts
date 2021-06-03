@@ -12,7 +12,6 @@ export interface ITodoList {
   doneItemsCount: number;
 }
 
-
 @Injectable({
   providedIn: 'root'
 })
@@ -42,6 +41,14 @@ export class TodoListsService{
     return this.httpClient.post<ITodoList>(this.config.apiTodoListsUrl, body, {'headers': headers});
   }
 
+  SendByEmail(listId:number):Observable<any>{
+    const url = this.config.apiTodoListsUrl + `/${listId}/sendByEmail`;
+    
+    const accessToken = localStorage.getItem(this.config.accessTokenName);
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${accessToken}`);
+    
+    return this.httpClient.post(url, '', {'headers': headers});
+  }
 
 
 }
