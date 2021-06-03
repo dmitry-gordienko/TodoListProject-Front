@@ -1,7 +1,16 @@
-<div class="todo-list-element"*ngFor="let list of lists">{{list.name}} - {{list.totalItemsCount}}/{{list.doneItemsCount}}</div>
+<div class="todo-list-element" *ngFor="let list of lists" (click)="OnSelect(list)" [class.selected]="list === selectedList" >
+    <span class="todo-list-name">
+        {{list.name}}
+    </span>
+    <span class="todo-list-counters">
+        - {{list.totalItemsCount}}/{{list.doneItemsCount}}
+    </span>
+</div>
 
 <div class="todo-list-control">
     <br>
-    <input type="text" id="newListName" name="todoList.Name" required placeholder="New list..." />
-    <button id="createTodoListButton" name="createTodoList">Create</button>
+    
+    <input type="text" id="new-list-name" [(ngModel)]="newListName" required placeholder="A new list name..." />
+    
+    <button id="create-todo-list-button" (click)="CreateNewList()">Create new list</button>
 </div>

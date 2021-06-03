@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -21,6 +22,8 @@ import { ConfigurationService } from './services/common/configuration.service';
 import { AuthorizationService } from './services/common/authorization.service';
 import { PopUpMessageService } from './services/common/pop-up-message.service';
 import { SpinnerServiceService } from './services/common/spinner-service.service';
+import { TodoListsService } from './services/api/todo-lists.service';
+import { TodoItemsService } from './services/api/todo-items.service';
 //import { from } from 'rxjs';
 
 
@@ -31,6 +34,7 @@ import { SpinnerServiceService } from './services/common/spinner-service.service
     BrowserAnimationsModule,
     CommonModule,
     HttpClientModule,
+    FormsModule,
     ReactiveFormsModule,
     RouterModule.forRoot([
       { path: '', component: MainComponent },
@@ -54,8 +58,16 @@ import { SpinnerServiceService } from './services/common/spinner-service.service
   bootstrap: [
     AppComponent
   ],
-  providers: [ ConfigurationService, AuthorizationService, PopUpMessageService, SpinnerServiceService ]
+  providers: [ 
+    ConfigurationService,
+    AuthorizationService,
+    PopUpMessageService,
+    SpinnerServiceService,
+    TodoListsService,
+    TodoItemsService
+   ]
 })
+
 export class AppModule { }
 
 

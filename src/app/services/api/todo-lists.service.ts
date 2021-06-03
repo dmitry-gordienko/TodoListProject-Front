@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ConfigurationService } from '../common/configuration.service';
+import { AuthorizationService } from '../common/authorization.service';
 import { Observable } from 'rxjs';
 
 
@@ -17,61 +18,29 @@ export interface ITodoList {
 })
 export class TodoListsService{
 
-
   constructor(
     private config: ConfigurationService,
+    private authService: AuthorizationService,
     private httpClient: HttpClient,
   ) { }
-
-  GetCollection()
+  
+  GetListsCollection(): Observable<ITodoList[]>
   {
     const accessToken = localStorage.getItem(this.config.accessTokenName);
-    const headers = new HttpHeaders()
-      .set('Authorization', `Bearer ${accessToken}`);
-    //let result:ITodoList[];
-    let result = this.httpClient
-      .get(this.config.apiTodoListsUrl, { 'headers': headers })
-      .subscribe(
-        data => {
-          let listsCollection:ITodoList[] = data as ITodoList[];
-          /*
-          this.isAuthorized = true;
-          this.spinner.HideWithDelay().then(()=>{
-            console.log('Login success!', data);
-            this.router.navigateByUrl('/');
-          });
-          */
-         //return data;
-         console.log(data);
-         console.log(listsCollection);
-         return data as ITodoList[];
-        },
-        error => {
-          console.log(error);
-          /*
-          this.isAuthorized = false;
-          this.spinner.HideWithDelay().then(()=>{
-            console.log('Login fail!', error);
-            this.TryToRefreshToken();
-          });
-          */
-        },
-      );
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${accessToken}`);
+    return this.httpClient.get<ITodoList[]>(this.config.apiTodoListsUrl, { 'headers': headers });
   }
 
-  GetCollectionTmp(): Observable<ITodoList[]>
+  CreateNewList(newListName: string): Observable<ITodoList>
   {
-    const accessToken = localStorage.getItem(this.config.accessTokenName);
-
-    const headers = new HttpHeaders()
-      .set('Authorization', `Bearer ${accessToken}`);
+    const accessToken = this.authService.GetAccessToken();
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${accessToken}`);
     
-    return this.httpClient
-      .get<ITodoList[]>(this.config.apiTodoListsUrl, { 'headers': headers });
-      //.pipe();
+    const body = new FormData();
+    body.append('name', newListName);
 
+    return this.httpClient.post<ITodoList>(this.config.apiTodoListsUrl, body, {'headers': headers});
   }
-
 
 
 
