@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ITodoList, TodoListsService } from '../../services/api/todo-lists.service';
+import { TodoItemsService } from '../../services/api/todo-items.service';
 
 
 @Component({
@@ -8,7 +10,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MainComponent implements OnInit {
 
-  constructor() { }
+  selectedList!: ITodoList;
+  
+  constructor(private todoListsService: TodoListsService, private todoItemssService: TodoItemsService) { }
 
   ngOnInit(): void {
   }

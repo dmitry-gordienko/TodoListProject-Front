@@ -3,14 +3,17 @@
         {{list.name}}
     </span>
     <span class="todo-list-counters">
-        - {{list.totalItemsCount}}/{{list.doneItemsCount}}
+        - {{list.doneItemsCount}}/{{list.totalItemsCount}}
     </span>
 </div>
 
 <div class="todo-list-control">
     <br>
     
-    <input type="text" id="new-list-name" [(ngModel)]="newListName" required placeholder="A new list name..." />
+    <input type="text" id="new-list-name" [(ngModel)]="newListName" (keypress)="NewListKeypress($event)" required placeholder="A new list name..." />
     
-    <button id="create-todo-list-button" (click)="CreateNewList()">Create new list</button>
+    <button id="create-todo-list-button"
+     (click)="NewListButton()"
+     
+     >Create new list</button>
 </div>

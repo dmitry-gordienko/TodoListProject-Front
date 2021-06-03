@@ -1,1 +1,45 @@
-<p>todo-items works!</p>
+<!--
+<div *ngIf="list" class="todo-items-list">
+
+    <div class="todo-items-list-name">{{list.name}}</div>
+
+</div>
+-->
+
+<div class="items-search">
+    <input name="searchInput" placeholder="Search..." />
+    <br><input type="radio" name="searchOption"> All
+    <input type="radio" name="searchOption"> Undone
+</div>
+
+
+<div *ngIf="!itemsList" class="todo-items-list">
+    <div class="todo-item-element" >Choose the list on the left</div>
+</div>
+
+
+<div *ngIf="itemsList && itemsList.length < 1" class="todo-items-list">
+    <div class="todo-item-element">Empty list...</div>
+</div>
+
+<div *ngIf="itemsList && itemsList.length > 0" class="todo-items-list">
+    <div class="todo-item-element" *ngFor="let item of itemsList" [class.is-done]="item.isDone === true">
+
+        <span *ngIf="item.isDone">
+            <s>- {{item.name}}</s>
+        </span>
+
+        <span *ngIf="!item.isDone">
+            - {{item.name}}
+        </span>
+    </div>
+</div>
+
+<div class="items-control">
+    <input type="text" id="newItemName" name="item.Name" required placeholder="Add todo..."
+    [(ngModel)]="newItemName"
+     (keypress)="newItemKeypressEvent($event)"
+     />
+     <br>
+     <button id="getByEmailButton" name="getByEmailButton" (click)="SendByEmail()">Get by email</button>
+</div>

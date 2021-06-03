@@ -1,22 +1,19 @@
-<!--
-<h1>Main Page.</h1>
-<h2>Under construction...</h2>
--->
-
 <div class="data-container">
-    
-    <table class="data-table" style="border-color: black; border-style: solid; width:200%;" rules="all" cols=2>
+
+    <table class="data-table" style="border-color: black; border-style: solid;" width="150%" rules="all" cols=2>
+        <!--
         <tr>
             <th style="width: 25%">ToDo lists</th>
             <th >Items</th>
         </tr>
-        <tr>
-            <td>
-                <app-todo-lists></app-todo-lists>
+        -->
+        <tr width="100%">
+            <td width="25%">
+                <app-todo-lists [(selectedList)]="selectedList" ></app-todo-lists>
             </td>
 
             <td>
-                <app-todo-items></app-todo-items>
+                <app-todo-items [list]="selectedList"></app-todo-items>
             </td>
         </tr>
     </table>
