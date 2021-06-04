@@ -10,11 +10,11 @@ import { PopUpMessageService } from '../../services/common/pop-up-message.servic
   styleUrls: ['./todo-items.component.scss']
 })
 export class TodoItemsComponent implements OnInit {
-  
-  @Input() list?: ITodoList;
-  @Output() listChange = new EventEmitter<ITodoList>();
 
-  newItemName:string = '';
+  @Input() currentList?: ITodoList;
+  //@Output() listChange = new EventEmitter<ITodoList>();
+
+  newItemName: string = '';
 
   itemsList!: ITodoItem[];
 
@@ -27,17 +27,17 @@ export class TodoItemsComponent implements OnInit {
   ngOnInit(): void {
     console.log("List selected!");
   }
-  
-  
+
+
   ngOnChanges(list: ITodoList) {
-    
-    if(!this.list){
+
+    if (!this.currentList) {
       return;
     }
-    this.GetItemsByListId(this.list!.id);
+    this.GetItemsByListId(this.currentList!.id);
   }
 
-  GetItemsByListId(ListId:number): void{
+  GetItemsByListId(ListId: number): void {
     this.todoItemsService.GetItemsByListId(ListId)
       .subscribe(items => {
         console.log(items);
@@ -45,48 +45,66 @@ export class TodoItemsComponent implements OnInit {
       });
   }
 
-  newItemKeypressEvent(event:any)
-  {
-    if(event.key!=='Enter'){
+  newItemKeypressEvent(event: any) {
+    if (event.key !== 'Enter') {
       return;
     }
-    if(this.newItemName === '')
+    if (this.newItemName === '')
       this.popUpMsg.ShowErrorMsg('Input error', 'New item name needed');
     console.log('New item: ', this.newItemName);
+    
 
-      this.todoItemsService.AddNewItemToList(this.newItemName, this.list!.id)
+    this.todoItemsService.AddNewItemToList(this.newItemName, this.currentList!.id)
       .subscribe(item => {
         this.newItemName = '';
         this.itemsList.push(item);
         console.log('New item: ', item);
-        this.list!.totalItemsCount += 1;
-        this.listChange.emit(this.list);
+        this.currentList!.totalItemsCount += 1;
+        //this.listChange.emit(this.list);
       });
   }
 
-  SendByEmail()
-  {
-    if(!this.list)
-    {
+  SendByEmail() {
+    if (!this.currentList) {
       this.popUpMsg.ShowErrorMsg('Request error', "Please select the list");
       return;
     }
 
-    if(this.itemsList && this.itemsList.length < 1)
-    {
+    if (this.itemsList && this.itemsList.length < 1) {
       this.popUpMsg.ShowErrorMsg('Nothing to send', "List is empty");
       return;
     }
 
-    this.todoListsService.SendByEmail(this.list!.id)
-    .subscribe(
-      data =>{
-        this.popUpMsg.ShowSuccessMsg('Success', "Email has been sent to you");
-      },
-      error =>{
-        this.popUpMsg.ShowErrorMsg('Email error', "Something wrong");
+    this.todoListsService.SendByEmail(this.currentList!.id)
+      .subscribe(
+        data => {
+          this.popUpMsg.ShowSuccessMsg('Success', "Email has been sent to you");
+        },
+        error => {
+          this.popUpMsg.ShowErrorMsg('Email error', "Something wrong");
+        }
+      );
+  }
+
+  SwitchItemDoneStatus(item: ITodoItem) {
+
+    item.isDone = !item.isDone;
+    this.RefreshCurrentListCounts();
+
+  }
+
+  RefreshCurrentListCounts() {
+
+    this.currentList!.totalItemsCount = this.itemsList.length;
+
+    let doneCounter = 0;
+    for(let item of this.itemsList){
+      if (item.isDone) {
+        doneCounter += 1;
       }
-    );
+    }
+    
+    this.currentList!.doneItemsCount = doneCounter;
   }
 
 }

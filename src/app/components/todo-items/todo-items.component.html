@@ -23,7 +23,7 @@
 </div>
 
 <div *ngIf="itemsList && itemsList.length > 0" class="todo-items-list">
-    <div class="todo-item-element" *ngFor="let item of itemsList" [class.is-done]="item.isDone === true">
+    <div class="todo-item-element" *ngFor="let item of itemsList" [class.is-done]="item.isDone === true" (click)="SwitchItemDoneStatus(item)">
 
         <span *ngIf="item.isDone">
             <s>- {{item.name}}</s>
