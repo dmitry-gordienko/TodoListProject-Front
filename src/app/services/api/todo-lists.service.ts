@@ -48,5 +48,11 @@ export class TodoListsService{
     return this.httpClient.post(url, '', {'headers': headers});
   }
 
+  DeleteList(listId:number){
+    const url = this.config.apiTodoListsUrl + `/${listId}`;
+    const headers = this.authService.GetHeadersWithAuthorizationToken();
+    return this.httpClient.delete(url, {'headers': headers});
+  }
+
 
 }
