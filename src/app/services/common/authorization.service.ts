@@ -43,6 +43,12 @@ export class AuthorizationService {
 
   ngOnInit() { }
 
+  GetHeadersWithAuthorizationToken(): HttpHeaders{
+    const accessToken = localStorage.getItem(this.accessTokenName);
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${accessToken}`);
+    return headers;
+  }
+
   AuthOnInit() {
     const accessToken = localStorage.getItem(this.accessTokenName);
     const refreshToken = localStorage.getItem(this.refreshTokenName);
