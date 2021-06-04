@@ -1,8 +1,8 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { environment } from "../../../environments/environment";
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { AuthorizationService } from '../../services/common/authorization.service';
-import { ConfigurationService } from '../../services/common/configuration.service';
+import { AuthorizationService } from '../../core/auth/authorization.service';
 
 export interface ITodoItem {
   id: number;
@@ -27,9 +27,10 @@ export interface IUpdateItemRequest{
 })
 export class TodoItemsService {
 
+  private _apiUrl = environment.hostUrl + 'api/items';
+
   constructor(
     private authService: AuthorizationService,
-    private config: ConfigurationService,
     private httpClient: HttpClient
   ) { }
 
@@ -38,7 +39,7 @@ export class TodoItemsService {
   {
     const headers = this.authService.GetHeadersWithAuthorizationToken();
     
-    const url = this.config.apiTodoItemsUrl + '?todoListId=' + listId;
+    const url = this._apiUrl + '?todoListId=' + listId;
 
     return this.httpClient.get<ITodoItem[]>(url, { 'headers': headers });
   }
@@ -47,18 +48,18 @@ export class TodoItemsService {
   {
     const headers = this.authService.GetHeadersWithAuthorizationToken();
     const body = this.MapToFormData(newItem);
-    return this.httpClient.post<ITodoItem>(this.config.apiTodoItemsUrl, body, {'headers': headers});
+    return this.httpClient.post<ITodoItem>(this._apiUrl, body, {'headers': headers});
   }
 
   ModifyItem(item: IUpdateItemRequest){
     const headers = this.authService.GetHeadersWithAuthorizationToken();
     const body = this.MapToFormData(item);
-    return this.httpClient.patch<ITodoItem>(this.config.apiTodoItemsUrl, body, {'headers': headers});
+    return this.httpClient.patch<ITodoItem>(this._apiUrl, body, {'headers': headers});
   }
 
   DeleteItem(itemId: number)
   {
-    const url = this.config.apiTodoItemsUrl + '/' + itemId;
+    const url = this._apiUrl + '/' + itemId;
     const headers = this.authService.GetHeadersWithAuthorizationToken();
     return this.httpClient.delete(url, {'headers': headers});
   }

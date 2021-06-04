@@ -11,21 +11,18 @@ import { ToastrModule } from 'ngx-toastr';
 import { NgxSpinnerModule } from 'ngx-spinner';
 
 import { AppComponent } from './app.component';
-import { TopBarComponent } from './components/top-bar/top-bar.component';
-import { RegistrationComponent } from './components/registration/registration.component';
-import { LoginComponent } from './components/login/login.component';
-import { MainComponent } from './components/main/main.component';
-import { TodoListsComponent } from './components/todo-lists/todo-lists.component';
-import { TodoItemsComponent } from './components/todo-items/todo-items.component';
+import { TopBarComponent } from './shared/top-bar/top-bar.component';
+import { RegistrationComponent } from './core/auth/registration/registration.component';
+import { LoginComponent } from './core/auth/login/login.component';
+import { MainComponent } from './core/main/main.component';
+import { TodoListsComponent } from './core/todo-lists/todo-lists.component';
+import { TodoItemsComponent } from './core/todo-items/todo-items.component';
 
-import { ConfigurationService } from './services/common/configuration.service';
-import { AuthorizationService } from './services/common/authorization.service';
-import { PopUpMessageService } from './services/common/pop-up-message.service';
-import { SpinnerServiceService } from './services/common/spinner-service.service';
-import { TodoListsService } from './services/api/todo-lists.service';
-import { TodoItemsService } from './services/api/todo-items.service';
-//import { from } from 'rxjs';
-
+import { AuthorizationService } from './core/auth/authorization.service';
+import { PopUpMessageService } from './shared/pop-up-message.service';
+import { SpinnerServiceService } from './shared/spinner-service.service';
+import { TodoListsService } from './core/todo-lists/todo-lists.service';
+import { TodoItemsService } from './core/todo-items/todo-items.service';
 
 
 @NgModule({
@@ -58,14 +55,13 @@ import { TodoItemsService } from './services/api/todo-items.service';
   bootstrap: [
     AppComponent
   ],
-  providers: [ 
-    ConfigurationService,
+  providers: [
     AuthorizationService,
     PopUpMessageService,
     SpinnerServiceService,
     TodoListsService,
     TodoItemsService
-   ]
+  ]
 })
 
 export class AppModule { }

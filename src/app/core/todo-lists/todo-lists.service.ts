@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { ConfigurationService } from '../common/configuration.service';
-import { AuthorizationService } from '../common/authorization.service';
+import { HttpClient } from '@angular/common/http';
+import { environment } from "../../../environments/environment";
+import { AuthorizationService } from '../auth/authorization.service';
 import { Observable } from 'rxjs';
 
 
@@ -17,8 +17,9 @@ export interface ITodoList {
 })
 export class TodoListsService{
 
+  private _apiUrl: string = environment.hostUrl + 'api/todoLists';
+
   constructor(
-    private config: ConfigurationService,
     private authService: AuthorizationService,
     private httpClient: HttpClient,
   ) { }
@@ -27,7 +28,7 @@ export class TodoListsService{
   {
     const headers = this.authService.GetHeadersWithAuthorizationToken();
 
-    return this.httpClient.get<ITodoList[]>(this.config.apiTodoListsUrl, { 'headers': headers });
+    return this.httpClient.get<ITodoList[]>(this._apiUrl, { 'headers': headers });
   }
 
   CreateNewList(newListName: string): Observable<ITodoList>
@@ -37,11 +38,11 @@ export class TodoListsService{
     const body = new FormData();
     body.append('name', newListName);
 
-    return this.httpClient.post<ITodoList>(this.config.apiTodoListsUrl, body, {'headers': headers});
+    return this.httpClient.post<ITodoList>(this._apiUrl, body, {'headers': headers});
   }
 
   SendByEmail(listId:number):Observable<any>{
-    const url = this.config.apiTodoListsUrl + `/${listId}/sendByEmail`;
+    const url = this._apiUrl + `/${listId}/sendByEmail`;
     
     const headers = this.authService.GetHeadersWithAuthorizationToken();
     
@@ -49,7 +50,7 @@ export class TodoListsService{
   }
 
   DeleteList(listId:number){
-    const url = this.config.apiTodoListsUrl + `/${listId}`;
+    const url = this._apiUrl + `/${listId}`;
     const headers = this.authService.GetHeadersWithAuthorizationToken();
     return this.httpClient.delete(url, {'headers': headers});
   }

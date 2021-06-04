@@ -2,9 +2,9 @@ import { Injectable, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { ConfigurationService } from './configuration.service';
-import { PopUpMessageService } from './pop-up-message.service';
-import { SpinnerServiceService } from './spinner-service.service';
+import { environment } from "../../../environments/environment";
+import { PopUpMessageService } from '../../shared/pop-up-message.service';
+import { SpinnerServiceService } from '../../shared/spinner-service.service';
 
 export interface IRegistrationRequest {
   username: string;
@@ -32,11 +32,15 @@ export class AuthorizationService {
   private readonly accessTokenName: string = 'accessToken';
   private readonly refreshTokenName: string = 'refreshToken';
 
+  private _loginUrl:string = environment.hostUrl + 'login';
+  private _registerUrl:string = environment.hostUrl + 'register';
+  private _authCheckUrl:string = environment.hostUrl + 'checkAuth';
+  private _authRefreshUrl:string = environment.hostUrl + 'refreshAuth';
+
   constructor(
     private httpClient: HttpClient,
     private router: Router,
     private location: Location,
-    private configuration: ConfigurationService,
     private popUpMsg: PopUpMessageService,
     private spinner: SpinnerServiceService
   ) { }
@@ -72,7 +76,7 @@ export class AuthorizationService {
     payload.append('email', loginForm.email);
     payload.append('password', loginForm.password);
     this.httpClient
-      .post(this.configuration.apiLoginUrl, payload)
+      .post(this._loginUrl, payload)
       .subscribe(
         data => {
           let resp = data as ILoginResponse;
@@ -109,7 +113,7 @@ export class AuthorizationService {
     payload.append('password', registrationForm.password);
 
     this.httpClient
-      .post(this.configuration.apiRegisterUrl, payload)
+      .post(this._registerUrl, payload)
       .subscribe(
         data => {
           let resp = data as ILoginResponse;
@@ -158,7 +162,7 @@ export class AuthorizationService {
       .set('Authorization', `Bearer ${accessToken}`);
 
     this.httpClient
-      .get(this.configuration.apiCheckAuthUrl, { 'headers': headers })
+      .get(this._authCheckUrl, { 'headers': headers })
       .subscribe(
         data => {
           this.isAuthorized = true;
@@ -185,7 +189,7 @@ export class AuthorizationService {
     data.append('RefreshToken', refreshToken || '');
 
     this.httpClient
-      .post(this.configuration.apiRefreshAuthUrl, data)
+      .post(this._authRefreshUrl, data)
       .subscribe(
         data => {
           let resp = data as ILoginResponse;
