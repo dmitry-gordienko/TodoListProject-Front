@@ -22,7 +22,7 @@ export interface IAddItemRequest {
 export class TodoItemsService {
 
   constructor(
-    private authorizationService: AuthorizationService,
+    private authService: AuthorizationService,
     private config: ConfigurationService,
     private httpClient: HttpClient
   ) { }
@@ -30,8 +30,7 @@ export class TodoItemsService {
 
   GetItemsByListId(listId: number): Observable<ITodoItem[]>
   {
-    const accessToken = localStorage.getItem(this.config.accessTokenName);
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${accessToken}`);
+    const headers = this.authService.GetHeadersWithAuthorizationToken();
     
     const url = this.config.apiTodoItemsUrl + '?todoListId=' + listId;
 
@@ -40,8 +39,7 @@ export class TodoItemsService {
   
   AddNewItemToList(itemName:string, listId: number): Observable<ITodoItem>
   {
-    const accessToken = localStorage.getItem(this.config.accessTokenName);
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${accessToken}`);
+    const headers = this.authService.GetHeadersWithAuthorizationToken();
     
     const body = new FormData();
     body.append('name', itemName);

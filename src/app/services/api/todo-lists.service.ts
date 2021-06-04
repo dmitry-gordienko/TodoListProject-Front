@@ -25,15 +25,14 @@ export class TodoListsService{
   
   GetListsCollection(): Observable<ITodoList[]>
   {
-    const accessToken = localStorage.getItem(this.config.accessTokenName);
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${accessToken}`);
+    const headers = this.authService.GetHeadersWithAuthorizationToken();
+
     return this.httpClient.get<ITodoList[]>(this.config.apiTodoListsUrl, { 'headers': headers });
   }
 
   CreateNewList(newListName: string): Observable<ITodoList>
   {
-    const accessToken = this.authService.GetAccessToken();
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${accessToken}`);
+    const headers = this.authService.GetHeadersWithAuthorizationToken();
     
     const body = new FormData();
     body.append('name', newListName);
@@ -44,8 +43,7 @@ export class TodoListsService{
   SendByEmail(listId:number):Observable<any>{
     const url = this.config.apiTodoListsUrl + `/${listId}/sendByEmail`;
     
-    const accessToken = localStorage.getItem(this.config.accessTokenName);
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${accessToken}`);
+    const headers = this.authService.GetHeadersWithAuthorizationToken();
     
     return this.httpClient.post(url, '', {'headers': headers});
   }

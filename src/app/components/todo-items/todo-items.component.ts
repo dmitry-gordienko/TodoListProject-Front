@@ -91,6 +91,8 @@ export class TodoItemsComponent implements OnInit {
     item.isDone = !item.isDone;
     this.RefreshCurrentListCounts();
 
+    //console.log(Object.keys(item));
+
   }
 
   RefreshCurrentListCounts() {
