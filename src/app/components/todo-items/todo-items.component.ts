@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, OnChanges, Output, EventEmitter } from '@angular/core';
 import { Observable } from 'rxjs';
 import { TodoListsService, ITodoList } from 'src/app/services/api/todo-lists.service';
-import { TodoItemsService, ITodoItem } from '../../services/api/todo-items.service';
+import { TodoItemsService, ITodoItem, IUpdateItemRequest, IAddItemRequest } from '../../services/api/todo-items.service';
 import { PopUpMessageService } from '../../services/common/pop-up-message.service';
 
 @Component({
@@ -53,8 +53,12 @@ export class TodoItemsComponent implements OnInit {
       this.popUpMsg.ShowErrorMsg('Input error', 'New item name needed');
     console.log('New item: ', this.newItemName);
     
-
-    this.todoItemsService.AddNewItemToList(this.newItemName, this.currentList!.id)
+    const newItemRequest: IAddItemRequest = {
+      name: this.newItemName,
+      todoListId:this.currentList!.id
+    };
+    
+    this.todoItemsService.AddNewItemToList(newItemRequest)
       .subscribe(item => {
         this.newItemName = '';
         this.itemsList.push(item);
@@ -88,11 +92,32 @@ export class TodoItemsComponent implements OnInit {
 
   SwitchItemDoneStatus(item: ITodoItem) {
 
-    item.isDone = !item.isDone;
-    this.RefreshCurrentListCounts();
+    let updateRequestItem: IUpdateItemRequest = {
+      id: item.id,
+      name: item.name,
+      isDone: !item.isDone
+    };
+    this.ModifyItem(updateRequestItem);
 
-    //console.log(Object.keys(item));
+  }
 
+  ModifyItem(item: IUpdateItemRequest){
+    this.todoItemsService.ModifyItem(item)
+      .subscribe(
+        data => {
+
+          for(let i=0; i< this.itemsList.length; i++){
+            if(this.itemsList[i].id == data.id){
+              this.itemsList[i] = data as ITodoItem;
+            }
+          }
+
+          this.RefreshCurrentListCounts();
+        },
+        error => {
+
+          this.popUpMsg.ShowErrorMsg('Error', "Something wrong");
+        });
   }
 
   RefreshCurrentListCounts() {
@@ -108,5 +133,23 @@ export class TodoItemsComponent implements OnInit {
     
     this.currentList!.doneItemsCount = doneCounter;
   }
+
+  DeleteItem(item: ITodoItem) {
+    
+    this.todoItemsService.DeleteItem(item.id)
+      .subscribe(
+        data => {
+          this.itemsList.forEach((value,index)=>{
+            if(value.id == item.id) this.itemsList.splice(index,1);
+          });
+          this.RefreshCurrentListCounts();
+        },
+        error => {
+          this.popUpMsg.ShowErrorMsg('Error', "Something wrong");
+        }
+      );
+
+  }
+
 
 }

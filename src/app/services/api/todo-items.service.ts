@@ -16,6 +16,12 @@ export interface IAddItemRequest {
   todoListId: number;
 }
 
+export interface IUpdateItemRequest{
+  id: number;
+  name: string;
+  isDone: boolean;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -37,14 +43,37 @@ export class TodoItemsService {
     return this.httpClient.get<ITodoItem[]>(url, { 'headers': headers });
   }
   
-  AddNewItemToList(itemName:string, listId: number): Observable<ITodoItem>
+  AddNewItemToList(newItem:IAddItemRequest): Observable<ITodoItem>
   {
     const headers = this.authService.GetHeadersWithAuthorizationToken();
-    
-    const body = new FormData();
-    body.append('name', itemName);
-    body.append('todoListId', listId.toString());
+    const body = this.MapToFormData(newItem);
     return this.httpClient.post<ITodoItem>(this.config.apiTodoItemsUrl, body, {'headers': headers});
+  }
+
+  ModifyItem(item: IUpdateItemRequest){
+    const headers = this.authService.GetHeadersWithAuthorizationToken();
+    const body = this.MapToFormData(item);
+    return this.httpClient.patch<ITodoItem>(this.config.apiTodoItemsUrl, body, {'headers': headers});
+  }
+
+  DeleteItem(itemId: number)
+  {
+    const url = this.config.apiTodoItemsUrl + '/' + itemId;
+    const headers = this.authService.GetHeadersWithAuthorizationToken();
+    return this.httpClient.delete(url, {'headers': headers});
+  }
+
+  MapToFormData(obj:any): FormData
+  {
+    const form = new FormData();
+    const keys = Object.keys(obj);
+
+    for(let key of keys){
+      let val = obj[key];
+      form.append(key, val.toString());
+    }
+
+    return form;
   }
   
 }

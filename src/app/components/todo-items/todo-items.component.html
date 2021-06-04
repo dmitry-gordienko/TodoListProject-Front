@@ -23,15 +23,16 @@
 </div>
 
 <div *ngIf="itemsList && itemsList.length > 0" class="todo-items-list">
-    <div class="todo-item-element" *ngFor="let item of itemsList" [class.is-done]="item.isDone === true" (click)="SwitchItemDoneStatus(item)">
+    <div class="todo-item-element" *ngFor="let item of itemsList" [class.is-done]="item.isDone === true">
 
-        <span *ngIf="item.isDone">
+        <span *ngIf="item.isDone" (click)="SwitchItemDoneStatus(item)">
             <s>- {{item.name}}</s>
         </span>
 
-        <span *ngIf="!item.isDone">
+        <span *ngIf="!item.isDone" (click)="SwitchItemDoneStatus(item)">
             - {{item.name}}
         </span>
+        <i class="material-icons" style="font-size: 18px; color: rgba(200, 0, 0);" (click)="DeleteItem(item)">clear</i>
     </div>
 </div>
 
