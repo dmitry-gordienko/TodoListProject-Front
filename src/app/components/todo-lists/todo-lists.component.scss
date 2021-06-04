@@ -1,5 +1,11 @@
 .todo-list-element{
     margin: 10px;
+
+}
+.todo-list-name,
+.todo-list-counters,
+.control-remove{
+    cursor: pointer;
 }
 
 .selected{

@@ -64,9 +64,42 @@ export class TodoListsComponent implements OnInit {
 
   CreateNewList(){
     this.todoListService.CreateNewList(this.newListName || '')
-      .subscribe(list => {
-        this.lists.push(list);
-      });
+      .subscribe(
+        list => {
+          this.lists.push(list);
+          this.newListName='';
+        },
+        error => {
+          this.popUpMsg.ShowErrorMsg('Error', "Something wrong");
+        }
+      );
+  }
+
+  DeleteList(list:ITodoList){
+    this.todoListService.DeleteList(list.id)
+    .subscribe(
+      data => {
+        
+        this.lists.forEach((value,index)=>{
+          if(value.id == list.id){
+
+            let newIndex = index;
+
+            if(index == this.lists.length - 1){
+              newIndex-=1;
+            }
+
+            this.lists.splice(index,1);
+            this.selectedList = this.lists[newIndex];
+          }
+        });
+        this.selectedListChange.emit(this.selectedList);
+      },
+      error => {
+        this.popUpMsg.ShowErrorMsg('Error', "Something wrong");
+      }
+    );
+
   }
 
 }

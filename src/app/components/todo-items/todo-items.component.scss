@@ -2,8 +2,10 @@
     margin: 10px;
 }
 
-.is-done{
-    font-weight: bold;
+.item-name,
+.ctrl-item-remove
+{
+    cursor: pointer;
 }
 
 div{

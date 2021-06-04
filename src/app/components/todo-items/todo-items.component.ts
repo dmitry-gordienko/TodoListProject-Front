@@ -49,8 +49,16 @@ export class TodoItemsComponent implements OnInit {
     if (event.key !== 'Enter') {
       return;
     }
-    if (this.newItemName === '')
+    
+    if(!this.currentList){
+      this.popUpMsg.ShowErrorMsg('Error', 'Select list to work');
+      return;
+    }
+    
+    if (this.newItemName === ''){
       this.popUpMsg.ShowErrorMsg('Input error', 'New item name needed');
+      return;
+    }
     console.log('New item: ', this.newItemName);
     
     const newItemRequest: IAddItemRequest = {
