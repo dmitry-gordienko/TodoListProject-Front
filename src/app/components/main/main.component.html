@@ -1,6 +1,6 @@
 <div class="data-container">
 
-    <table class="data-table" style="border-color: black; border-style: solid;" width="150%" rules="all" cols=2>
+    <table class="data-table" width="150%" rules="all" cols=2>
         <!--
         <tr>
             <th style="width: 25%">ToDo lists</th>
@@ -11,9 +11,9 @@
             <td width="25%">
                 <app-todo-lists [(selectedList)]="selectedList" ></app-todo-lists>
             </td>
-
+            <td width="2px"></td>
             <td>
-                <app-todo-items [list]="selectedList"></app-todo-items>
+                <app-todo-items [currentList]="selectedList"></app-todo-items>
             </td>
         </tr>
     </table>
