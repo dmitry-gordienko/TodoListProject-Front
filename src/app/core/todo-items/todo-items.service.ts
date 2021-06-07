@@ -1,8 +1,7 @@
-import { environment } from "../../../environments/environment";
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { AuthorizationService } from '../../core/auth/authorization.service';
+import { environment } from "../../../environments/environment";
+import { HttpService } from "../http/http.service";
 
 export interface ITodoItem {
   id: number;
@@ -30,38 +29,30 @@ export class TodoItemsService {
   private _apiUrl = environment.hostUrl + 'api/items';
 
   constructor(
-    private authService: AuthorizationService,
-    private httpClient: HttpClient
+    private httpService: HttpService
   ) { }
 
 
   GetItemsByListId(listId: number): Observable<ITodoItem[]>
   {
-    const headers = this.authService.GetHeadersWithAuthorizationToken();
-    
     const url = this._apiUrl + '?todoListId=' + listId;
-
-    return this.httpClient.get<ITodoItem[]>(url, { 'headers': headers });
+    return this.httpService.request('get', url);
   }
   
   AddNewItemToList(newItem:IAddItemRequest): Observable<ITodoItem>
   {
-    const headers = this.authService.GetHeadersWithAuthorizationToken();
     const body = this.MapToFormData(newItem);
-    return this.httpClient.post<ITodoItem>(this._apiUrl, body, {'headers': headers});
+    return this.httpService.request('post', this._apiUrl, {body: body});
   }
 
-  ModifyItem(item: IUpdateItemRequest){
-    const headers = this.authService.GetHeadersWithAuthorizationToken();
+  ModifyItem(item: IUpdateItemRequest): Observable<any>{
     const body = this.MapToFormData(item);
-    return this.httpClient.patch<ITodoItem>(this._apiUrl, body, {'headers': headers});
+    return this.httpService.request('patch', this._apiUrl, {body:body});
   }
 
-  DeleteItem(itemId: number)
-  {
+  DeleteItem(itemId: number): Observable<any>{
     const url = this._apiUrl + '/' + itemId;
-    const headers = this.authService.GetHeadersWithAuthorizationToken();
-    return this.httpClient.delete(url, {'headers': headers});
+    return this.httpService.request('delete', url);
   }
 
   MapToFormData(obj:any): FormData
