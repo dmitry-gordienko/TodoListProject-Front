@@ -32,7 +32,7 @@ export class HttpService extends HttpClient {
             if (!this.interceptors) {
                 
                 this.interceptors = [
-                    //this.injector.get(EndpointInterceptor),
+                    this.injector.get(EndpointInterceptor),
                     this.injector.get(AuthInterceptor),
                 ];
                 
