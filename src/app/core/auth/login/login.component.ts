@@ -33,7 +33,7 @@ export class LoginComponent implements OnInit {
         this.authService.login(this.loginData);
     }
 
-    CheckAuth() {
+    checkAuth() {
         this.authService.tryToLogin();
     }
 

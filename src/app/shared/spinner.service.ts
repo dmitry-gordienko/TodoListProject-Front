@@ -18,28 +18,28 @@ export class SpinnerService {
     private spinner: NgxSpinnerService
   ) { }
 
-  Show()
+  show()
   {
     this.spinner.show(undefined, this.defaultSpinner);
   }
 
-  Hide()
+  hide()
   {
     this.spinner.hide();
   }
 
-  async HideWithDelay(milliseconds: number = 1000)
+  async hideWithDelay(milliseconds: number = 1000)
   {
     setTimeout(() =>
     {
-      this.Hide();
+      this.hide();
     },
     milliseconds);
-    await this.Delay(milliseconds);
-    return this.Hide();
+    await this.delay(milliseconds);
+    return this.hide();
   }
   
-  Delay(ms: number) {
+  delay(ms: number) {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
 

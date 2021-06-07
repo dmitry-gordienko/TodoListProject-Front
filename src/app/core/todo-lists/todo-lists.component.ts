@@ -24,58 +24,58 @@ export class TodoListsComponent implements OnInit {
     ) { }
 
     ngOnInit(): void {
-        this.GetLists();
+        this.getLists();
     }
 
-    GetLists(): void {
-        this.todoListService.GetListsCollection()
+    getLists(): void {
+        this.todoListService.getListsCollection()
             .subscribe(lists => {
                 this.lists = lists;
             });
     }
 
-    OnSelect(el: ITodoList): void {
+    onSelect(el: ITodoList): void {
         this.selectedList = el;
         console.log(this.selectedList);
         this.selectedListChange.emit(this.selectedList);
     }
 
-    NewListButton(): void {
+    newListButton(): void {
 
         if (!this.newListName || this.newListName === '') {
-            this.popUpMsg.ShowErrorMsg('Input error', 'Enter a new list name.');
+            this.popUpMsg.showErrorMsg('Input error', 'Enter a new list name.');
             return;
         }
-        this.CreateNewList();
+        this.createNewList();
     }
 
-    NewListKeypress(event: any) {
+    newListKeypress(event: any) {
         if (event.key !== 'Enter') {
             return;
         }
 
         if (!this.newListName || this.newListName === '') {
-            this.popUpMsg.ShowErrorMsg('Input error', 'Enter a new list name.');
+            this.popUpMsg.showErrorMsg('Input error', 'Enter a new list name.');
             return;
         }
-        this.CreateNewList();
+        this.createNewList();
     }
 
-    CreateNewList() {
-        this.todoListService.CreateNewList(this.newListName || '')
+    createNewList() {
+        this.todoListService.createNewList(this.newListName || '')
             .subscribe(
                 list => {
                     this.lists.push(list);
                     this.newListName = '';
                 },
                 error => {
-                    this.popUpMsg.ShowErrorMsg('Error', "Something wrong");
+                    this.popUpMsg.showErrorMsg('Error', "Something wrong");
                 }
             );
     }
 
-    DeleteList(list: ITodoList) {
-        this.todoListService.DeleteList(list.id)
+    deleteList(list: ITodoList) {
+        this.todoListService.deleteList(list.id)
             .subscribe(
                 data => {
 
@@ -95,7 +95,7 @@ export class TodoListsComponent implements OnInit {
                     this.selectedListChange.emit(this.selectedList);
                 },
                 error => {
-                    this.popUpMsg.ShowErrorMsg('Error', "Something wrong");
+                    this.popUpMsg.showErrorMsg('Error', "Something wrong");
                 }
             );
 

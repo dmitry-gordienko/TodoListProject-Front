@@ -14,7 +14,7 @@ export class TopBarComponent implements OnInit{
     public readonly authService: AuthorizationService
   ) { }
   
-  Logout()
+  logout()
   {
     console.log('Logout top-bar button');  
     this.authService.logout();

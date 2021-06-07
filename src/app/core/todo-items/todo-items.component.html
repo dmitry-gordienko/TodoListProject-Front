@@ -25,14 +25,14 @@
 <div *ngIf="itemsList && itemsList.length > 0" class="todo-items-list">
     <div class="todo-item-element" *ngFor="let item of itemsList" [class.is-done]="item.isDone === true">
 
-        <span class="item-name" *ngIf="item.isDone" (click)="SwitchItemDoneStatus(item)">
+        <span class="item-name" *ngIf="item.isDone" (click)="switchItemDoneStatus(item)">
             <s>- {{item.name}}</s>
         </span>
 
-        <span class="item-name"*ngIf="!item.isDone" (click)="SwitchItemDoneStatus(item)">
+        <span class="item-name"*ngIf="!item.isDone" (click)="switchItemDoneStatus(item)">
             - {{item.name}}
         </span>
-        <i class="ctrl-item-remove material-icons" style="font-size: 18px; color: rgba(200, 0, 0);" (click)="DeleteItem(item)">clear</i>
+        <i class="ctrl-item-remove material-icons" style="font-size: 18px; color: rgba(200, 0, 0);" (click)="deleteItem(item)">clear</i>
     </div>
 </div>
 
@@ -42,5 +42,5 @@
      (keypress)="newItemKeypressEvent($event)"
      />
      <br>
-     <button id="getByEmailButton" name="getByEmailButton" (click)="SendByEmail()">Get by email</button>
+     <button id="getByEmailButton" name="getByEmailButton" (click)="sendByEmail()">Get by email</button>
 </div>

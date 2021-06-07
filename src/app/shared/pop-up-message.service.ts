@@ -10,7 +10,7 @@ export class PopUpMessageService {
     private toastr: ToastrService
   ) { }
 
-  ShowSuccessMsg(title:string, msg:string)
+  showSuccessMsg(title:string, msg:string)
   {
     this.toastr.success(msg, title, {
       timeOut: 3000,
@@ -21,7 +21,7 @@ export class PopUpMessageService {
   }
   
   
-  ShowErrorMsg(title:string, msg:string)
+  showErrorMsg(title:string, msg:string)
   {
     this.toastr.error(msg, title, {
       timeOut: 3000,

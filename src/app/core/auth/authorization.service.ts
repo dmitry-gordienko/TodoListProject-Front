@@ -74,7 +74,7 @@ export class AuthorizationService {
     }
 
     login(loginForm: ILoginRequest) {
-        this.spinner.Show();
+        this.spinner.show();
 
         const payload = new FormData();
         payload.append('email', loginForm.email);
@@ -91,7 +91,7 @@ export class AuthorizationService {
 
                     this.isAuthorized = true;
 
-                    this.spinner.HideWithDelay().then(() => {
+                    this.spinner.hideWithDelay().then(() => {
                         console.log('Login success!', data);
                         this.router.navigateByUrl('/');
                     });
@@ -101,9 +101,9 @@ export class AuthorizationService {
                     this.isAuthorized = false;
                     const errorMsg = error.error.Message;
 
-                    this.spinner.HideWithDelay().then(() => {
+                    this.spinner.hideWithDelay().then(() => {
                         console.log('Login error!', error);
-                        this.popUpMsg.ShowErrorMsg('Failed to login!', errorMsg);
+                        this.popUpMsg.showErrorMsg('Failed to login!', errorMsg);
                     });
 
                 },
@@ -111,7 +111,7 @@ export class AuthorizationService {
     }
 
     register(registrationForm: IRegistrationRequest) {
-        this.spinner.Show();
+        this.spinner.show();
         const payload = new FormData();
         payload.append('username', registrationForm.username);
         payload.append('email', registrationForm.email);
@@ -126,7 +126,7 @@ export class AuthorizationService {
                     this.localStorageService.setRefreshToken(resp.refreshToken);
                     this.isAuthorized = true;
 
-                    this.spinner.HideWithDelay().then(() => {
+                    this.spinner.hideWithDelay().then(() => {
                         console.log('Registration success!', data);
                         this.router.navigateByUrl('/');
                     });
@@ -135,8 +135,8 @@ export class AuthorizationService {
                     this.isAuthorized = false;
                     const errorMsg = error.error.Message;
 
-                    this.spinner.HideWithDelay().then(() => {
-                        this.popUpMsg.ShowErrorMsg('Failed to register!', errorMsg);
+                    this.spinner.hideWithDelay().then(() => {
+                        this.popUpMsg.showErrorMsg('Failed to register!', errorMsg);
                         //console.log('Registration error!', error);
                         //this.router.navigateByUrl('/login');
                     });
@@ -165,7 +165,7 @@ export class AuthorizationService {
         */
 
     tryToLogin() {
-        this.spinner.Show();
+        this.spinner.show();
         console.log('Trying to login...');
         const accessToken = this.localStorageService.getAccessToken();
         const headers = new HttpHeaders()
@@ -176,14 +176,14 @@ export class AuthorizationService {
             .subscribe(
                 data => {
                     this.isAuthorized = true;
-                    this.spinner.HideWithDelay().then(() => {
+                    this.spinner.hideWithDelay().then(() => {
                         console.log('Login success!', data);
                         this.router.navigateByUrl('/');
                     });
                 },
                 error => {
                     this.isAuthorized = false;
-                    this.spinner.HideWithDelay().then(() => {
+                    this.spinner.hideWithDelay().then(() => {
                         console.log('Login fail!', error);
                         this.tryToRefreshToken();
                     });
@@ -192,7 +192,7 @@ export class AuthorizationService {
     }
 
     tryToRefreshToken() {
-        this.spinner.Show();
+        this.spinner.show();
         console.log('Trying refresh token...');
         const refreshToken = this.localStorageService.getRefreshToken();
         const data = new FormData();
@@ -209,7 +209,7 @@ export class AuthorizationService {
 
                     this.isAuthorized = true;
 
-                    this.spinner.HideWithDelay().then(() => {
+                    this.spinner.hideWithDelay().then(() => {
                         console.log('Refresh success!', data);
                         this.router.navigateByUrl('/');
                     });
@@ -217,7 +217,7 @@ export class AuthorizationService {
                 error => {
                     this.isAuthorized = false;
 
-                    this.spinner.HideWithDelay().then(() => {
+                    this.spinner.hideWithDelay().then(() => {
                         this.router.navigateByUrl('/login');
                         console.log('Auth check error!', error);
                     });

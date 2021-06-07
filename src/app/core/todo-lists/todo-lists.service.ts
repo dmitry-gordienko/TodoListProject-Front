@@ -22,23 +22,23 @@ export class TodoListsService {
         private httpService: HttpService,
     ) { }
 
-    GetListsCollection(): Observable<ITodoList[]> {
+    getListsCollection(): Observable<ITodoList[]> {
         return this.httpService.request('get', this._apiUrl);
     }
 
-    CreateNewList(newListName: string): Observable<ITodoList> {
+    createNewList(newListName: string): Observable<ITodoList> {
         const body = new FormData();
         body.append('name', newListName);
 
         return this.httpService.request('post', this._apiUrl, { body: body });
     }
 
-    SendByEmail(listId: number): Observable<any> {
+    sendByEmail(listId: number): Observable<any> {
         const url = this._apiUrl + `/${listId}/sendByEmail`;
         return this.httpService.request('post', url);
     }
 
-    DeleteList(listId: number): Observable<any> {
+    deleteList(listId: number): Observable<any> {
         const url = this._apiUrl + `/${listId}`;
         return this.httpService.request('delete', url);
     }

@@ -1,20 +1,20 @@
-<div class="todo-list-element" *ngFor="let list of lists" (click)="OnSelect(list)" [class.selected]="list === selectedList" >
+<div class="todo-list-element" *ngFor="let list of lists" (click)="onSelect(list)" [class.selected]="list === selectedList" >
     <span class="todo-list-name">
         {{list.name}}
     </span>
     <span class="todo-list-counters">
         - {{list.doneItemsCount}}/{{list.totalItemsCount}}
     </span>
-    <i class="control-remove material-icons" style="font-size: 18px; color: rgba(200, 0, 0);" (click)="DeleteList(list)">clear</i>
+    <i class="control-remove material-icons" style="font-size: 18px; color: rgba(200, 0, 0);" (click)="deleteList(list)">clear</i>
 </div>
 
 <div class="todo-list-control">
     <br>
     
-    <input type="text" id="new-list-name" [(ngModel)]="newListName" (keypress)="NewListKeypress($event)" required placeholder="A new list name..." />
+    <input type="text" id="new-list-name" [(ngModel)]="newListName" (keypress)="newListKeypress($event)" required placeholder="A new list name..." />
     
     <button id="create-todo-list-button"
-     (click)="NewListButton()"
+     (click)="newListButton()"
      
      >Create new list</button>
 </div>

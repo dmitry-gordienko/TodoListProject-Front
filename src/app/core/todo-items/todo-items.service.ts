@@ -33,27 +33,27 @@ export class TodoItemsService {
     ) { }
 
 
-    GetItemsByListId(listId: number): Observable<ITodoItem[]> {
+    getItemsByListId(listId: number): Observable<ITodoItem[]> {
         const url = this._apiUrl + '?todoListId=' + listId;
         return this.httpService.request('get', url);
     }
 
-    AddNewItemToList(newItem: IAddItemRequest): Observable<ITodoItem> {
-        const body = this.MapToFormData(newItem);
+    addNewItemToList(newItem: IAddItemRequest): Observable<ITodoItem> {
+        const body = this.mapToFormData(newItem);
         return this.httpService.request('post', this._apiUrl, { body: body });
     }
 
-    ModifyItem(item: IUpdateItemRequest): Observable<any> {
-        const body = this.MapToFormData(item);
+    modifyItem(item: IUpdateItemRequest): Observable<any> {
+        const body = this.mapToFormData(item);
         return this.httpService.request('patch', this._apiUrl, { body: body });
     }
 
-    DeleteItem(itemId: number): Observable<any> {
+    deleteItem(itemId: number): Observable<any> {
         const url = this._apiUrl + '/' + itemId;
         return this.httpService.request('delete', url);
     }
 
-    MapToFormData(obj: any): FormData {
+    mapToFormData(obj: any): FormData {
         const form = new FormData();
         const keys = Object.keys(obj);
 

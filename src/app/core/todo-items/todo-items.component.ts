@@ -34,11 +34,11 @@ export class TodoItemsComponent implements OnInit {
         if (!this.currentList) {
             return;
         }
-        this.GetItemsByListId(this.currentList!.id);
+        this.getItemsByListId(this.currentList!.id);
     }
 
-    GetItemsByListId(ListId: number): void {
-        this.todoItemsService.GetItemsByListId(ListId)
+    getItemsByListId(ListId: number): void {
+        this.todoItemsService.getItemsByListId(ListId)
             .subscribe(items => {
                 console.log(items);
                 this.itemsList = items;
@@ -51,12 +51,12 @@ export class TodoItemsComponent implements OnInit {
         }
 
         if (!this.currentList) {
-            this.popUpMsg.ShowErrorMsg('Error', 'Select list to work');
+            this.popUpMsg.showErrorMsg('Error', 'Select list to work');
             return;
         }
 
         if (this.newItemName === '') {
-            this.popUpMsg.ShowErrorMsg('Input error', 'New item name needed');
+            this.popUpMsg.showErrorMsg('Input error', 'New item name needed');
             return;
         }
         console.log('New item: ', this.newItemName);
@@ -66,7 +66,7 @@ export class TodoItemsComponent implements OnInit {
             todoListId: this.currentList!.id
         };
 
-        this.todoItemsService.AddNewItemToList(newItemRequest)
+        this.todoItemsService.addNewItemToList(newItemRequest)
             .subscribe(item => {
                 this.newItemName = '';
                 this.itemsList.push(item);
@@ -76,41 +76,41 @@ export class TodoItemsComponent implements OnInit {
             });
     }
 
-    SendByEmail() {
+    sendByEmail() {
         if (!this.currentList) {
-            this.popUpMsg.ShowErrorMsg('Request error', "Please select the list");
+            this.popUpMsg.showErrorMsg('Request error', "Please select the list");
             return;
         }
 
         if (this.itemsList && this.itemsList.length < 1) {
-            this.popUpMsg.ShowErrorMsg('Nothing to send', "List is empty");
+            this.popUpMsg.showErrorMsg('Nothing to send', "List is empty");
             return;
         }
 
-        this.todoListsService.SendByEmail(this.currentList!.id)
+        this.todoListsService.sendByEmail(this.currentList!.id)
             .subscribe(
                 data => {
-                    this.popUpMsg.ShowSuccessMsg('Success', "Email has been sent to you");
+                    this.popUpMsg.showSuccessMsg('Success', "Email has been sent to you");
                 },
                 error => {
-                    this.popUpMsg.ShowErrorMsg('Email error', "Something wrong");
+                    this.popUpMsg.showErrorMsg('Email error', "Something wrong");
                 }
             );
     }
 
-    SwitchItemDoneStatus(item: ITodoItem) {
+    switchItemDoneStatus(item: ITodoItem) {
 
         let updateRequestItem: IUpdateItemRequest = {
             id: item.id,
             name: item.name,
             isDone: !item.isDone
         };
-        this.ModifyItem(updateRequestItem);
+        this.modifyItem(updateRequestItem);
 
     }
 
-    ModifyItem(item: IUpdateItemRequest) {
-        this.todoItemsService.ModifyItem(item)
+    modifyItem(item: IUpdateItemRequest) {
+        this.todoItemsService.modifyItem(item)
             .subscribe(
                 data => {
 
@@ -120,15 +120,15 @@ export class TodoItemsComponent implements OnInit {
                         }
                     }
 
-                    this.RefreshCurrentListCounts();
+                    this.refreshCurrentListCounts();
                 },
                 error => {
 
-                    this.popUpMsg.ShowErrorMsg('Error', "Something wrong");
+                    this.popUpMsg.showErrorMsg('Error', "Something wrong");
                 });
     }
 
-    RefreshCurrentListCounts() {
+    refreshCurrentListCounts() {
 
         this.currentList!.totalItemsCount = this.itemsList.length;
 
@@ -142,22 +142,20 @@ export class TodoItemsComponent implements OnInit {
         this.currentList!.doneItemsCount = doneCounter;
     }
 
-    DeleteItem(item: ITodoItem) {
+    deleteItem(item: ITodoItem) {
 
-        this.todoItemsService.DeleteItem(item.id)
+        this.todoItemsService.deleteItem(item.id)
             .subscribe(
                 data => {
                     this.itemsList.forEach((value, index) => {
                         if (value.id == item.id) this.itemsList.splice(index, 1);
                     });
-                    this.RefreshCurrentListCounts();
+                    this.refreshCurrentListCounts();
                 },
                 error => {
-                    this.popUpMsg.ShowErrorMsg('Error', "Something wrong");
+                    this.popUpMsg.showErrorMsg('Error', "Something wrong");
                 }
             );
-
     }
-
 
 }
