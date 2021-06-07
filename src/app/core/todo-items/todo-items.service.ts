@@ -26,7 +26,7 @@ export interface IUpdateItemRequest{
 })
 export class TodoItemsService {
 
-  private _apiUrl = environment.hostUrl + 'api/items';
+  private _apiUrl = 'api/items';
 
   constructor(
     private httpService: HttpService

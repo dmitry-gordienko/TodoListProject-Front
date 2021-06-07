@@ -16,7 +16,7 @@ export interface ITodoList {
 })
 export class TodoListsService{
 
-  private _apiUrl: string = environment.hostUrl + 'api/todoLists';
+  private _apiUrl: string = 'api/todoLists';
 
   constructor(
     private httpService: HttpService,
