@@ -14,7 +14,6 @@ class HttpInterceptorHandler implements HttpHandler {
     }
 }
 
-
 export const HTTP_DYNAMIC_INTERCEPTORS = new InjectionToken<HttpInterceptor>('HTTP_DYNAMIC_INTERCEPTORS');
 
 @Injectable({
@@ -25,17 +24,17 @@ export class HttpService extends HttpClient {
     constructor(
         private httpHandler: HttpHandler,
         private injector: Injector,
-        @Optional() @Inject(HTTP_DYNAMIC_INTERCEPTORS) private interceptors: HttpInterceptor[] = []) {
+        @Optional() @Inject(HTTP_DYNAMIC_INTERCEPTORS) private interceptors: HttpInterceptor[] = []
+    ) {
 
-            super(httpHandler);
+        super(httpHandler);
 
-            if (!this.interceptors) {
+        if (!this.interceptors) {
 
-                this.interceptors = [
-                    this.injector.get(EndpointInterceptor),
-                    this.injector.get(AuthInterceptor),
-                ];
-
+            this.interceptors = [
+                this.injector.get(EndpointInterceptor),
+                this.injector.get(AuthInterceptor),
+            ];
         }
     }
 
@@ -45,11 +44,5 @@ export class HttpService extends HttpClient {
         );
         return new HttpClient(handler).request(method, url, options);
     }
-
-
-
-
-
-
 
 }
