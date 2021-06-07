@@ -4,7 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { environment } from "../../../environments/environment";
 import { PopUpMessageService } from '../../shared/pop-up-message.service';
-import { SpinnerServiceService } from '../../shared/spinner-service.service';
+import { SpinnerService } from '../../shared/spinner.service';
 import { LocalStorageService } from "../device/local-storage.service";
 
 export interface IRegistrationRequest {
@@ -40,7 +40,7 @@ export class AuthorizationService {
         private router: Router,
         private location: Location,
         private popUpMsg: PopUpMessageService,
-        private spinner: SpinnerServiceService,
+        private spinner: SpinnerService,
         private localStorageService: LocalStorageService,
 
     ) { }

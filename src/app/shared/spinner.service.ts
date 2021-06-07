@@ -4,7 +4,7 @@ import { NgxSpinnerService, Spinner } from 'ngx-spinner';
 @Injectable({
   providedIn: 'root'
 })
-export class SpinnerServiceService {
+export class SpinnerService {
   
   defaultSpinner: Spinner = {
     type: 'square-jelly-box',

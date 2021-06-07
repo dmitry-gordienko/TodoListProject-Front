@@ -20,7 +20,7 @@ import { TodoItemsComponent } from './core/todo-items/todo-items.component';
 
 import { AuthorizationService } from './core/auth/authorization.service';
 import { PopUpMessageService } from './shared/pop-up-message.service';
-import { SpinnerServiceService } from './shared/spinner-service.service';
+import { SpinnerService } from './shared/spinner.service';
 import { TodoListsService } from './core/todo-lists/todo-lists.service';
 import { TodoItemsService } from './core/todo-items/todo-items.service';
 
@@ -58,7 +58,7 @@ import { TodoItemsService } from './core/todo-items/todo-items.service';
     providers: [
         AuthorizationService,
         PopUpMessageService,
-        SpinnerServiceService,
+        SpinnerService,
         TodoListsService,
         TodoItemsService
     ]
