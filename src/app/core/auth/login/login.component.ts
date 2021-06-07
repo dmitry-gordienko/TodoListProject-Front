@@ -30,11 +30,11 @@ export class LoginComponent implements OnInit {
         this.loginData.email = this.loginForm.get('email')?.value;
         this.loginData.password = this.loginForm.get('password')?.value;
 
-        this.authService.Login(this.loginData);
+        this.authService.login(this.loginData);
     }
 
     CheckAuth() {
-        this.authService.TryToLogin();
+        this.authService.tryToLogin();
     }
 
     ngOnInit(): void { }

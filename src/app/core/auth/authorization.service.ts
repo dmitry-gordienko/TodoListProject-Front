@@ -6,6 +6,8 @@ import { environment } from "../../../environments/environment";
 import { PopUpMessageService } from '../../shared/pop-up-message.service';
 import { SpinnerService } from '../../shared/spinner.service';
 import { LocalStorageService } from "../device/local-storage.service";
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 export interface IRegistrationRequest {
     username: string;
@@ -47,20 +49,21 @@ export class AuthorizationService {
 
     ngOnInit() { }
 
-    GetHeadersWithAuthorizationToken(): HttpHeaders {
+    getHeadersWithAuthorizationToken(): HttpHeaders {
         const accessToken = this.localStorageService.getAccessToken();
         const headers = new HttpHeaders().set('Authorization', `Bearer ${accessToken}`);
         return headers;
     }
 
-    AuthOnInit() {
+    authOnInit() {
         const accessToken = this.localStorageService.getAccessToken();
         const refreshToken = this.localStorageService.getRefreshToken();
 
         if (accessToken && refreshToken)
-            this.TryToLogin();
+            this.tryToLogin();
 
-        if (
+        
+            if (
             this.location.path() === '/register' ||
             this.location.path() === '/login'
         ) {
@@ -70,7 +73,7 @@ export class AuthorizationService {
         this.router.navigateByUrl('/login');
     }
 
-    Login(loginForm: ILoginRequest) {
+    login(loginForm: ILoginRequest) {
         this.spinner.Show();
 
         const payload = new FormData();
@@ -107,7 +110,7 @@ export class AuthorizationService {
             );
     }
 
-    Register(registrationForm: IRegistrationRequest) {
+    register(registrationForm: IRegistrationRequest) {
         this.spinner.Show();
         const payload = new FormData();
         payload.append('username', registrationForm.username);
@@ -141,7 +144,7 @@ export class AuthorizationService {
             );
     }
 
-    Logout() {
+    logout() {
         //this.ClearStoredCredentials();
         this.localStorageService.removeAccessToken();
         this.localStorageService.removeRefreshToken();
@@ -161,7 +164,7 @@ export class AuthorizationService {
         }
         */
 
-    TryToLogin() {
+    tryToLogin() {
         this.spinner.Show();
         console.log('Trying to login...');
         const accessToken = this.localStorageService.getAccessToken();
@@ -182,13 +185,13 @@ export class AuthorizationService {
                     this.isAuthorized = false;
                     this.spinner.HideWithDelay().then(() => {
                         console.log('Login fail!', error);
-                        this.TryToRefreshToken();
+                        this.tryToRefreshToken();
                     });
                 },
             );
     }
 
-    TryToRefreshToken() {
+    tryToRefreshToken() {
         this.spinner.Show();
         console.log('Trying refresh token...');
         const refreshToken = this.localStorageService.getRefreshToken();
@@ -224,11 +227,22 @@ export class AuthorizationService {
 
     }
 
-    /*
-    Delay(ms: number = 500) {
-        return new Promise(resolve => setTimeout(resolve, ms));
+    setSessionAfterLogin(res: ILoginResponse) {
+        this.localStorageService.setAccessToken(res.accessToken);
+        this.localStorageService.setRefreshToken(res.refreshToken);
     }
-    */
 
+    refreshToken(): Observable<ILoginResponse> {
+
+        const refreshToken = this.localStorageService.getRefreshToken();
+        const data = new FormData();
+        data.append('RefreshToken', refreshToken || '');
+
+        return this.httpClient.post<ILoginResponse>(this._authRefreshUrl, data)
+        .pipe(
+            map((res: ILoginResponse) => {this.setSessionAfterLogin(res); return res;})
+        );
+            
+    }
 
 }

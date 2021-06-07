@@ -11,7 +11,7 @@ export class AppComponent {
     constructor(private authorizationService: AuthorizationService) { }
 
     ngOnInit() {
-        this.authorizationService.AuthOnInit();
+        this.authorizationService.authOnInit();
     }
 
 }

@@ -17,7 +17,7 @@ export class TopBarComponent implements OnInit{
   Logout()
   {
     console.log('Logout top-bar button');  
-    this.authService.Logout();
+    this.authService.logout();
   }
 
   ngOnInit(){

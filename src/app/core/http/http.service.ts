@@ -3,6 +3,7 @@ import { Inject, inject, Injectable, InjectionToken, Injector, Optional } from '
 import { Observable } from 'rxjs';
 import { AuthInterceptor } from './auth.interceptor';
 import { EndpointInterceptor } from './endpoint.interceptor';
+import { ErrorHandlerInterceptor } from "./error-handler.interceptor";
 
 
 class HttpInterceptorHandler implements HttpHandler {
@@ -34,6 +35,7 @@ export class HttpService extends HttpClient {
             this.interceptors = [
                 this.injector.get(EndpointInterceptor),
                 this.injector.get(AuthInterceptor),
+                this.injector.get(ErrorHandlerInterceptor),
             ];
         }
     }

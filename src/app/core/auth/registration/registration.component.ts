@@ -34,7 +34,7 @@ export class RegistrationComponent implements OnInit {
         this.registrationData.email = this.registrationForm.get('email')?.value;
         this.registrationData.password = this.registrationForm.get('password')?.value;
 
-        this.authService.Register(this.registrationData);
+        this.authService.register(this.registrationData);
 
     }
 
