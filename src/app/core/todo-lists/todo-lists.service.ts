@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { environment } from "../../../environments/environment";
-import { AuthorizationService } from '../auth/authorization.service';
 import { Observable } from 'rxjs';
+import { HttpService } from "../http/http.service";
 
 
 export interface ITodoList {
@@ -20,39 +19,30 @@ export class TodoListsService{
   private _apiUrl: string = environment.hostUrl + 'api/todoLists';
 
   constructor(
-    private authService: AuthorizationService,
-    private httpClient: HttpClient,
+    private httpService: HttpService,
   ) { }
   
   GetListsCollection(): Observable<ITodoList[]>
   {
-    const headers = this.authService.GetHeadersWithAuthorizationToken();
-
-    return this.httpClient.get<ITodoList[]>(this._apiUrl, { 'headers': headers });
+    return this.httpService.request('get', this._apiUrl);
   }
 
   CreateNewList(newListName: string): Observable<ITodoList>
   {
-    const headers = this.authService.GetHeadersWithAuthorizationToken();
-    
     const body = new FormData();
     body.append('name', newListName);
 
-    return this.httpClient.post<ITodoList>(this._apiUrl, body, {'headers': headers});
+    return this.httpService.request('post', this._apiUrl, {body:body});
   }
 
   SendByEmail(listId:number):Observable<any>{
     const url = this._apiUrl + `/${listId}/sendByEmail`;
-    
-    const headers = this.authService.GetHeadersWithAuthorizationToken();
-    
-    return this.httpClient.post(url, '', {'headers': headers});
+    return this.httpService.request('post', url);
   }
 
-  DeleteList(listId:number){
+  DeleteList(listId:number):Observable<any>{
     const url = this._apiUrl + `/${listId}`;
-    const headers = this.authService.GetHeadersWithAuthorizationToken();
-    return this.httpClient.delete(url, {'headers': headers});
+    return this.httpService.request('delete', url);
   }
 
 
