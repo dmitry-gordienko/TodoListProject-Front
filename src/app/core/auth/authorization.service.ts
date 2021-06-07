@@ -82,10 +82,10 @@ export class AuthorizationService {
             .subscribe(
                 data => {
                     let resp = data as ILoginResponse;
-                    
+
                     this.localStorageService.setAccessToken(resp.accessToken);
                     this.localStorageService.setRefreshToken(resp.refreshToken);
-                    
+
                     this.isAuthorized = true;
 
                     this.spinner.HideWithDelay().then(() => {

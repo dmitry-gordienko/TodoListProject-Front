@@ -2,17 +2,17 @@ import { Component } from '@angular/core';
 import { AuthorizationService } from './core/auth/authorization.service';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+    selector: 'app-root',
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
 
-  constructor(private authorizationService: AuthorizationService){}
+    constructor(private authorizationService: AuthorizationService) { }
 
-  ngOnInit(){
-    this.authorizationService.AuthOnInit();
-  }
+    ngOnInit() {
+        this.authorizationService.AuthOnInit();
+    }
 
 }
 

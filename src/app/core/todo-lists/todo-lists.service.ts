@@ -5,45 +5,43 @@ import { HttpService } from "../http/http.service";
 
 
 export interface ITodoList {
-  id: number;
-  name: string;
-  totalItemsCount: number;
-  doneItemsCount: number;
+    id: number;
+    name: string;
+    totalItemsCount: number;
+    doneItemsCount: number;
 }
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
-export class TodoListsService{
+export class TodoListsService {
 
-  private _apiUrl: string = 'api/todoLists';
+    private _apiUrl: string = 'api/todoLists';
 
-  constructor(
-    private httpService: HttpService,
-  ) { }
-  
-  GetListsCollection(): Observable<ITodoList[]>
-  {
-    return this.httpService.request('get', this._apiUrl);
-  }
+    constructor(
+        private httpService: HttpService,
+    ) { }
 
-  CreateNewList(newListName: string): Observable<ITodoList>
-  {
-    const body = new FormData();
-    body.append('name', newListName);
+    GetListsCollection(): Observable<ITodoList[]> {
+        return this.httpService.request('get', this._apiUrl);
+    }
 
-    return this.httpService.request('post', this._apiUrl, {body:body});
-  }
+    CreateNewList(newListName: string): Observable<ITodoList> {
+        const body = new FormData();
+        body.append('name', newListName);
 
-  SendByEmail(listId:number):Observable<any>{
-    const url = this._apiUrl + `/${listId}/sendByEmail`;
-    return this.httpService.request('post', url);
-  }
+        return this.httpService.request('post', this._apiUrl, { body: body });
+    }
 
-  DeleteList(listId:number):Observable<any>{
-    const url = this._apiUrl + `/${listId}`;
-    return this.httpService.request('delete', url);
-  }
+    SendByEmail(listId: number): Observable<any> {
+        const url = this._apiUrl + `/${listId}/sendByEmail`;
+        return this.httpService.request('post', url);
+    }
+
+    DeleteList(listId: number): Observable<any> {
+        const url = this._apiUrl + `/${listId}`;
+        return this.httpService.request('delete', url);
+    }
 
 
 }

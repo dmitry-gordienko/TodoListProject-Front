@@ -26,42 +26,42 @@ import { TodoItemsService } from './core/todo-items/todo-items.service';
 
 
 @NgModule({
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    CommonModule,
-    HttpClientModule,
-    FormsModule,
-    ReactiveFormsModule,
-    RouterModule.forRoot([
-      { path: '', component: MainComponent },
-      { path: 'login', component: LoginComponent },
-      { path: 'register', component: RegistrationComponent },
-    ]),
-    ToastrModule.forRoot(),
-    NgxSpinnerModule,
-  ],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  declarations: [
+    imports: [
+        BrowserModule,
+        BrowserAnimationsModule,
+        CommonModule,
+        HttpClientModule,
+        FormsModule,
+        ReactiveFormsModule,
+        RouterModule.forRoot([
+            { path: '', component: MainComponent },
+            { path: 'login', component: LoginComponent },
+            { path: 'register', component: RegistrationComponent },
+        ]),
+        ToastrModule.forRoot(),
+        NgxSpinnerModule,
+    ],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    declarations: [
 
-    AppComponent,
-    TopBarComponent,
-    RegistrationComponent,
-    LoginComponent,
-    MainComponent,
-    TodoListsComponent,
-    TodoItemsComponent,
-  ],
-  bootstrap: [
-    AppComponent
-  ],
-  providers: [
-    AuthorizationService,
-    PopUpMessageService,
-    SpinnerServiceService,
-    TodoListsService,
-    TodoItemsService
-  ]
+        AppComponent,
+        TopBarComponent,
+        RegistrationComponent,
+        LoginComponent,
+        MainComponent,
+        TodoListsComponent,
+        TodoItemsComponent,
+    ],
+    bootstrap: [
+        AppComponent
+    ],
+    providers: [
+        AuthorizationService,
+        PopUpMessageService,
+        SpinnerServiceService,
+        TodoListsService,
+        TodoItemsService
+    ]
 })
 
 export class AppModule { }

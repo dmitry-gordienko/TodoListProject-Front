@@ -30,14 +30,14 @@ export class HttpService extends HttpClient {
             super(httpHandler);
 
             if (!this.interceptors) {
-                
+
                 this.interceptors = [
                     this.injector.get(EndpointInterceptor),
                     this.injector.get(AuthInterceptor),
                 ];
-                
-            }
+
         }
+    }
 
     request(method?: any, url?: any, options?: any): any {
         const handler = this.interceptors.reduceRight(
