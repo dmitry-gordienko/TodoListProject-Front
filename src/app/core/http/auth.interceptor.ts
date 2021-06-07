@@ -3,7 +3,9 @@ import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HttpHeaders } fro
 import { Observable } from 'rxjs';
 import { LocalStorageService } from '../device/local-storage.service';
 
-@Injectable()
+@Injectable({
+    providedIn: 'root'
+})
 export class AuthInterceptor implements HttpInterceptor {
 
     constructor(private localStorageService: LocalStorageService) { }
