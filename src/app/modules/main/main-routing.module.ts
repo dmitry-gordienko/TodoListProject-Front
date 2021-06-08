@@ -5,8 +5,10 @@ import { MainComponent } from './page/main.component';
 
 const routes: Routes = [
     {
-        path: '',
-        component: MainComponent
+        path: '',  component: MainComponent
+    },
+    {
+        path: ':listId',  component: MainComponent
     },
 ];
 

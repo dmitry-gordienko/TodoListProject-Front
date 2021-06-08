@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Router } from '@angular/router';
 import { ITodoList } from 'src/app/core/todo-lists/models/todo-list.model';
 import { TodoListsService } from '../../../../core/todo-lists/todo-lists.service';
 import { PopUpMessageService } from '../../../../shared/pop-up-message/pop-up-message.service';
@@ -17,11 +18,14 @@ export class TodoListsComponent implements OnInit {
     @Input() selectedList!: ITodoList;
     @Output() selectedListChange = new EventEmitter<ITodoList>();
 
+    @Input() onStartUpListId!: number;
+
     newListName?: string;
 
     constructor(
         private todoListService: TodoListsService,
         private popUpMsg: PopUpMessageService,
+        private router: Router
     ) { }
 
     ngOnInit(): void {
@@ -32,13 +36,31 @@ export class TodoListsComponent implements OnInit {
         this.todoListService.getListsCollection()
             .subscribe(lists => {
                 this.lists = lists;
+                if(this.onStartUpListId > 0){
+                    this.selectListById(this.onStartUpListId);
+                }
             });
     }
 
+    public selectListById(listId: number): void {
+
+        //console.log(this.lists);
+        //console.log('Searching for the list with id:', this.onStartUpListId);
+        this.lists.forEach((value, index) => {
+            //console.log('Checking value:', value);
+            if (value.id == listId) {
+              //console.log('Got it: ', value);
+                this.selectedList = value;
+                this.selectedListChange.emit(this.selectedList);
+            }
+        }); 
+    }
+
     onSelect(el: ITodoList): void {
-        this.selectedList = el;
         console.log(this.selectedList);
+        this.selectedList = el;
         this.selectedListChange.emit(this.selectedList);
+        this.router.navigateByUrl(`/main/${this.selectedList.id}`);
     }
 
     newListButton(): void {
