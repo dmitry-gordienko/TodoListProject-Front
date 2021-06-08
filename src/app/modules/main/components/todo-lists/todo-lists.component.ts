@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { ITodoList, TodoListsService } from './todo-lists.service';
-import { PopUpMessageService } from '../../shared/pop-up-message.service';
+import { ITodoList, TodoListsService } from '../../../../core/todo-lists/todo-lists.service';
+import { PopUpMessageService } from '../../../../shared/pop-up-message.service';
 
 @Component({
     selector: 'app-todo-lists',

@@ -12,11 +12,11 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 
 import { AppComponent } from './app.component';
 import { TopBarComponent } from './shared/top-bar/top-bar.component';
-import { RegistrationComponent } from './core/auth/registration/registration.component';
-import { LoginComponent } from './core/auth/login/login.component';
-import { MainComponent } from './core/main/main.component';
-import { TodoListsComponent } from './core/todo-lists/todo-lists.component';
-import { TodoItemsComponent } from './core/todo-items/todo-items.component';
+import { RegistrationComponent } from './modules/auth/registration/registration.component';
+import { LoginComponent } from './modules/auth/login/login.component';
+import { MainComponent } from './modules/main/main.component';
+import { TodoListsComponent } from './modules/main/components/todo-lists/todo-lists.component';
+import { TodoItemsComponent } from './modules/main/components/todo-items/todo-items.component';
 
 import { AuthorizationService } from './core/auth/authorization.service';
 import { PopUpMessageService } from './shared/pop-up-message.service';

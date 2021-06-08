@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { AuthorizationService, ILoginRequest } from '../authorization.service'
+import { AuthorizationService, ILoginRequest } from '../../../core/auth/authorization.service'
 
 @Component({
     selector: 'app-login',

@@ -1,8 +1,8 @@
 import { Component, OnInit, Input, OnChanges, Output, EventEmitter } from '@angular/core';
 import { Observable } from 'rxjs';
-import { TodoListsService, ITodoList } from '../todo-lists/todo-lists.service';
-import { TodoItemsService, ITodoItem, IUpdateItemRequest, IAddItemRequest } from './todo-items.service';
-import { PopUpMessageService } from '../../shared/pop-up-message.service';
+import { TodoListsService, ITodoList } from '../../../../core/todo-lists/todo-lists.service';
+import { TodoItemsService, ITodoItem, IUpdateItemRequest, IAddItemRequest } from '../../../../core/todo-items/todo-items.service';
+import { PopUpMessageService } from '../../../../shared/pop-up-message.service';
 
 @Component({
     selector: 'app-todo-items',
