@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ITodoList } from 'src/app/core/todo-lists/models/todo-list.model';
 import { TodoListsService } from '../../../../core/todo-lists/todo-lists.service';
-import { PopUpMessageService } from '../../../../shared/pop-up-message.service';
+import { PopUpMessageService } from '../../../../shared/pop-up-message/pop-up-message.service';
 
 @Component({
     selector: 'app-todo-lists',
