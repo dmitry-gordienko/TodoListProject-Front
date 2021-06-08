@@ -77,21 +77,19 @@ export class AuthorizationService {
                     this.localStorageService.setAccessToken(resp.accessToken);
                     this.localStorageService.setRefreshToken(resp.refreshToken);
 
-                    this.isAuthorized = true;
-
                     this.spinner.hideWithDelay().then(() => {
                         console.log('Login success!', data);
                         this.router.navigateByUrl('/');
+                        this.isAuthorized = true;
                     });
                 },
                 error => {
-
                     this.isAuthorized = false;
                     const errorMsg = error.error.Message;
-
                     this.spinner.hideWithDelay().then(() => {
                         console.log('Login error!', error);
                         this.popUpMsg.showErrorMsg('Failed to login!', errorMsg);
+                        
                     });
 
                 },
@@ -216,6 +214,7 @@ export class AuthorizationService {
     }
 
     setSessionAfterLogin(res: IAuthTokensResponse) {
+        this.isAuthorized = true;
         this.localStorageService.setAccessToken(res.accessToken);
         this.localStorageService.setRefreshToken(res.refreshToken);
     }
