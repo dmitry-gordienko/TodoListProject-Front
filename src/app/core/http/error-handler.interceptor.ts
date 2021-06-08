@@ -3,7 +3,8 @@ import { stripGeneratedFileSuffix } from '@angular/compiler/src/aot/util';
 import { Injectable, Injector } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { catchError, filter, map, switchMap, take } from 'rxjs/operators';
-import { AuthorizationService, IAuthTokensResponse } from "../auth/authorization.service";
+import { AuthorizationService } from "../auth/authorization.service";
+import { IAuthTokensResponse } from '../auth/models/token.model';
 import { LocalStorageService } from "../device/local-storage.service";
 
 

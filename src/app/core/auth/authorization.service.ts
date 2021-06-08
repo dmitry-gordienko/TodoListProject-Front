@@ -8,22 +8,10 @@ import { SpinnerService } from '../../shared/spinner.service';
 import { LocalStorageService } from "../device/local-storage.service";
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { IAuthTokensResponse } from './models/token.model';
+import { ILoginRequest } from './models/login.model';
+import { IRegistrationRequest } from './models/registration.model';
 
-export interface IRegistrationRequest {
-    username: string;
-    email: string;
-    password: string;
-}
-
-export interface ILoginRequest {
-    email: string;
-    password: string;
-}
-
-export interface IAuthTokensResponse {
-    accessToken: string;
-    refreshToken: string;
-}
 
 @Injectable({
     providedIn: 'root'
