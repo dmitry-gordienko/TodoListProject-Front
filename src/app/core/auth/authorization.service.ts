@@ -20,7 +20,7 @@ export interface ILoginRequest {
     password: string;
 }
 
-export interface ILoginResponse {
+export interface IAuthTokensResponse {
     accessToken: string;
     refreshToken: string;
 }
@@ -84,7 +84,7 @@ export class AuthorizationService {
             .post(this._loginUrl, payload)
             .subscribe(
                 data => {
-                    let resp = data as ILoginResponse;
+                    let resp = data as IAuthTokensResponse;
 
                     this.localStorageService.setAccessToken(resp.accessToken);
                     this.localStorageService.setRefreshToken(resp.refreshToken);
@@ -121,7 +121,7 @@ export class AuthorizationService {
             .post(this._registerUrl, payload)
             .subscribe(
                 data => {
-                    let resp = data as ILoginResponse;
+                    let resp = data as IAuthTokensResponse;
                     this.localStorageService.setAccessToken(resp.accessToken);
                     this.localStorageService.setRefreshToken(resp.refreshToken);
                     this.isAuthorized = true;
@@ -202,7 +202,7 @@ export class AuthorizationService {
             .post(this._authRefreshUrl, data)
             .subscribe(
                 data => {
-                    let resp = data as ILoginResponse;
+                    let resp = data as IAuthTokensResponse;
 
                     this.localStorageService.setAccessToken(resp.accessToken);
                     this.localStorageService.setRefreshToken(resp.refreshToken);
@@ -227,20 +227,20 @@ export class AuthorizationService {
 
     }
 
-    setSessionAfterLogin(res: ILoginResponse) {
+    setSessionAfterLogin(res: IAuthTokensResponse) {
         this.localStorageService.setAccessToken(res.accessToken);
         this.localStorageService.setRefreshToken(res.refreshToken);
     }
 
-    refreshToken(): Observable<ILoginResponse> {
+    refreshToken(): Observable<IAuthTokensResponse> {
 
         const refreshToken = this.localStorageService.getRefreshToken();
         const data = new FormData();
         data.append('RefreshToken', refreshToken || '');
 
-        return this.httpClient.post<ILoginResponse>(this._authRefreshUrl, data)
+        return this.httpClient.post<IAuthTokensResponse>(this._authRefreshUrl, data)
         .pipe(
-            map((res: ILoginResponse) => {this.setSessionAfterLogin(res); return res;})
+            map((res: IAuthTokensResponse) => {this.setSessionAfterLogin(res); return res;})
         );
             
     }

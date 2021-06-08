@@ -3,7 +3,7 @@ import { stripGeneratedFileSuffix } from '@angular/compiler/src/aot/util';
 import { Injectable, Injector } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { catchError, filter, map, switchMap, take } from 'rxjs/operators';
-import { AuthorizationService, ILoginResponse } from "../auth/authorization.service";
+import { AuthorizationService, IAuthTokensResponse } from "../auth/authorization.service";
 import { LocalStorageService } from "../device/local-storage.service";
 
 
@@ -14,12 +14,12 @@ export class ErrorHandlerInterceptor implements HttpInterceptor {
 
     isRefreshing = false;
     
-    defaultTokenSubj: ILoginResponse={
+    defaultTokenSubj: IAuthTokensResponse={
         accessToken:'',
         refreshToken:''
     };
 
-    private refreshTokenSubject = new BehaviorSubject<ILoginResponse>(this.defaultTokenSubj);
+    private refreshTokenSubject = new BehaviorSubject<IAuthTokensResponse>(this.defaultTokenSubj);
 
     constructor(
         private localStorageService: LocalStorageService,
@@ -64,7 +64,7 @@ export class ErrorHandlerInterceptor implements HttpInterceptor {
                 .pipe(
                     filter(result => result != null),
                     take(1),
-                    switchMap((resp: ILoginResponse) => {
+                    switchMap((resp: IAuthTokensResponse) => {
                         return next.handle(this.addToken(request, resp.accessToken));
                     })
                 );
@@ -80,7 +80,7 @@ export class ErrorHandlerInterceptor implements HttpInterceptor {
                 return auth
                     .refreshToken()
                     .pipe(
-                        switchMap((resp: ILoginResponse) => {
+                        switchMap((resp: IAuthTokensResponse) => {
                             console.log('Got new access token! Applying token to http request...');
                             this.isRefreshing = false;
                             return next.handle(this.addToken(request, resp.accessToken));
