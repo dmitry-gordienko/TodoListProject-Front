@@ -2,24 +2,10 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from "../../../environments/environment";
 import { HttpService } from "../http/http.service";
+import { IAddItemRequest } from './models/add-item-request.model';
+import { ITodoItem } from './models/todo-item.model';
+import { IUpdateItemRequest } from './models/update-item-request.model';
 
-export interface ITodoItem {
-    id: number;
-    name: string;
-    todoListId: number;
-    isDone: boolean;
-}
-
-export interface IAddItemRequest {
-    name: string;
-    todoListId: number;
-}
-
-export interface IUpdateItemRequest {
-    id: number;
-    name: string;
-    isDone: boolean;
-}
 
 @Injectable({
     providedIn: 'root'
