@@ -8,7 +8,7 @@ import { AuthorizationService } from '../../core/auth/authorization.service';
 })
 export class TopBarComponent implements OnInit{
 
-  private isLoggedIn:boolean = false;
+  //private isLoggedIn:boolean = false;
 
   constructor(
     public readonly authService: AuthorizationService
@@ -21,9 +21,10 @@ export class TopBarComponent implements OnInit{
   }
 
   ngOnInit(){
+      /*
     if(this.authService.isAuthorized)
-      this.isLoggedIn = true;
-    console.log('Logged in: ', this.isLoggedIn);
+      this.isLoggedIn = true;*/
+    //console.log('Logged in: ', this.isLoggedIn);
   }
 
 
