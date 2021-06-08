@@ -2,14 +2,8 @@ import { Injectable } from '@angular/core';
 import { environment } from "../../../environments/environment";
 import { Observable } from 'rxjs';
 import { HttpService } from "../http/http.service";
+import { ITodoList } from './models/todo-list.model';
 
-
-export interface ITodoList {
-    id: number;
-    name: string;
-    totalItemsCount: number;
-    doneItemsCount: number;
-}
 
 @Injectable({
     providedIn: 'root'
