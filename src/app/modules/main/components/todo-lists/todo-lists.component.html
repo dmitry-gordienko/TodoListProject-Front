@@ -1,10 +1,12 @@
 <div class="todo-list-element" *ngFor="let list of lists" (click)="onSelect(list)" [class.selected]="list === selectedList" >
-    <span class="todo-list-name">
-        {{list.name}}
-    </span>
-    <span class="todo-list-counters">
-        - {{list.doneItemsCount}}/{{list.totalItemsCount}}
-    </span>
+    
+    <!--
+        <a routerLink="/main/{{list.id}}">{{list.name}} - {{list.doneItemsCount}}/{{list.totalItemsCount}}</a>
+    -->
+    
+    <span class="todo-list-name">{{list.name}}</span>
+    <span class="todo-list-counters"> - {{list.doneItemsCount}}/{{list.totalItemsCount}}</span>
+
     <i class="control-remove material-icons" style="font-size: 18px; color: rgba(200, 0, 0);" (click)="deleteList(list)">clear</i>
 </div>
 

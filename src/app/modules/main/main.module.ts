@@ -15,6 +15,7 @@ import { TodoItemsComponent } from "./components/todo-items/todo-items.component
 
 import { TodoListsService } from "../../core/todo-lists/todo-lists.service";
 import { TodoItemsService } from "../../core/todo-items/todo-items.service";
+import { SearchComponent } from './components/todo-items/components/search/search.component';
 
 
 
@@ -31,6 +32,7 @@ import { TodoItemsService } from "../../core/todo-items/todo-items.service";
         MainComponent,
         TodoListsComponent,
         TodoItemsComponent,
+        SearchComponent,
     ],
     providers: [
         SpinnerService,

@@ -44,20 +44,29 @@ export class AuthorizationService {
     }
 
     authOnInit() {
+        if(this.isAuthorized){
+            console.log('Already authorized!');
+            return;
+        }
+        console.log('Auth needed!');
+
+        console.log('1 - ',this.isAuthorized);
         const accessToken = this.localStorageService.getAccessToken();
         const refreshToken = this.localStorageService.getRefreshToken();
 
         if (accessToken && refreshToken)
             this.tryToLogin();
+            console.log('2 - ',this.isAuthorized);
 
         
             if (
             this.location.path() === '/register' ||
             this.location.path() === '/login'
         ) {
+            console.log('3 - ',this.isAuthorized);
             return;
         }
-
+        console.log('4 - ',this.isAuthorized);
         this.router.navigateByUrl('/login');
     }
 

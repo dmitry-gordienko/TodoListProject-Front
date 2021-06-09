@@ -5,13 +5,11 @@
 
 </div>
 -->
+<app-search [itemsList]="itemsList" [(filteredItemsList)]="filteredItemsList"></app-search>
 
-<div class="items-search">
-    <input name="searchInput" placeholder="Search..." />
-    <br><input type="radio" name="searchOption"> All
-    <input type="radio" name="searchOption"> Undone
-</div>
-
+<!--
+<app-search [itemsList]="itemsList" (filteredItemsListChange)="filteredList = $event"></app-search>
+-->
 
 <div *ngIf="!itemsList" class="todo-items-list">
     <div class="no-list-choosen" >Choose the list on the left</div>
@@ -23,7 +21,7 @@
 </div>
 
 <div *ngIf="itemsList && itemsList.length > 0" class="todo-items-list">
-    <div class="todo-item-element" *ngFor="let item of itemsList" [class.is-done]="item.isDone === true">
+    <div class="todo-item-element" *ngFor="let item of filteredItemsList" [class.is-done]="item.isDone === true">
 
         <span class="item-name" *ngIf="item.isDone" (click)="switchItemDoneStatus(item)">
             <s>- {{item.name}} </s>

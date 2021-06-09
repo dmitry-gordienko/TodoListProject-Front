@@ -1,0 +1,9 @@
+<div class="items-search">
+    <input name="searchInput" placeholder="Search..." />
+    
+    <div class="items-search" (click)="choiceShowAll = showAll.checked; choiceShowUndone = showUndone.checked; showStatus();" >
+        <input #showAll type="radio" name="searchOption" checked> All
+        <input #showUndone type="radio" name="searchOption"> Undone
+    </div>
+
+</div>

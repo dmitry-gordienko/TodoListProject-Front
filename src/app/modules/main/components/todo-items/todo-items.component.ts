@@ -21,6 +21,7 @@ export class TodoItemsComponent implements OnInit {
     newItemName: string = '';
 
     itemsList!: ITodoItem[];
+    filteredItemsList: ITodoItem[] = [];
 
     constructor(
         private todoListsService: TodoListsService,
@@ -29,6 +30,12 @@ export class TodoItemsComponent implements OnInit {
     ) { }
 
     ngOnInit(): void {
+        
+        
+
+        //this.filteredItemsList.push(tmp);
+        
+        //this.filteredItemsList = this.itemsList;
         console.log("List selected!");
     }
 
@@ -45,8 +52,23 @@ export class TodoItemsComponent implements OnInit {
         this.todoItemsService.getItemsByListId(ListId)
             .subscribe(items => {
                 console.log(items);
-                this.itemsList = items;
+                //this.itemsList = items;
+                this.initLocalLists(items);
             });
+    }
+
+    initLocalLists(newItems:ITodoItem[]){
+        //debugger;
+        
+        this.itemsList = newItems;
+
+        while(this.filteredItemsList.length > 0){
+            this.filteredItemsList.pop();
+        }
+        
+        for(let item of this.itemsList){
+            this.filteredItemsList.push(item);
+        }
     }
 
     newItemKeypressEvent(event: any) {

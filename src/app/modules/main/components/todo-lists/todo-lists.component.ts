@@ -29,6 +29,7 @@ export class TodoListsComponent implements OnInit {
     ) { }
 
     ngOnInit(): void {
+        console.log('TodoList component!');
         this.getLists();
     }
 
@@ -36,31 +37,30 @@ export class TodoListsComponent implements OnInit {
         this.todoListService.getListsCollection()
             .subscribe(lists => {
                 this.lists = lists;
-                if(this.onStartUpListId > 0){
+                if (this.onStartUpListId > 0) {
                     this.selectListById(this.onStartUpListId);
                 }
             });
     }
 
     public selectListById(listId: number): void {
-
-        //console.log(this.lists);
-        //console.log('Searching for the list with id:', this.onStartUpListId);
-        this.lists.forEach((value, index) => {
-            //console.log('Checking value:', value);
-            if (value.id == listId) {
-              //console.log('Got it: ', value);
-                this.selectedList = value;
-                this.selectedListChange.emit(this.selectedList);
-            }
-        }); 
+        this.selectedList = this.lists.filter(list => list.id === listId)[0];
+        this.selectedListChange.emit(this.selectedList);
     }
+
+    // TODO: убрать после исправления в модели span на routerLink
 
     onSelect(el: ITodoList): void {
         console.log(this.selectedList);
+        
         this.selectedList = el;
         this.selectedListChange.emit(this.selectedList);
-        this.router.navigateByUrl(`/main/${this.selectedList.id}`);
+        this.router.navigate(['main', el.id]);
+        /*
+            .then(() => {
+                window.location.reload();
+            });
+            */
     }
 
     newListButton(): void {
