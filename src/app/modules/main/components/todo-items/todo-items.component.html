@@ -5,7 +5,11 @@
 
 </div>
 -->
+
+<app-search [itemsList]="itemsList"></app-search>
+<!--
 <app-search [itemsList]="itemsList" [(filteredItemsList)]="filteredItemsList"></app-search>
+-->
 
 <!--
 <app-search [itemsList]="itemsList" (filteredItemsListChange)="filteredList = $event"></app-search>
@@ -21,7 +25,7 @@
 </div>
 
 <div *ngIf="itemsList && itemsList.length > 0" class="todo-items-list">
-    <div class="todo-item-element" *ngFor="let item of filteredItemsList" [class.is-done]="item.isDone === true">
+    <div class="todo-item-element" *ngFor="let item of itemsList" [class.is-done]="item.isDone === true">
 
         <span class="item-name" *ngIf="item.isDone" (click)="switchItemDoneStatus(item)">
             <s>- {{item.name}} </s>

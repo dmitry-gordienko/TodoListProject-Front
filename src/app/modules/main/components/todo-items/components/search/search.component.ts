@@ -1,6 +1,10 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Observable, Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { ITodoItem } from 'src/app/core/todo-items/models/todo-item.model';
-import { ITodoList } from 'src/app/core/todo-lists/models/todo-list.model';
+import { TodoItemsService } from "../../../../../../core/todo-items/todo-items.service";
+import { IItemsFilterRequest } from "../../../../../../core/todo-items/models/items-filter-request.model";
+import { itemStatusEnum } from "../../../../../../core/todo-items/enums/item-status-filter.enum";
 
 @Component({
     selector: 'app-search',
@@ -10,64 +14,65 @@ import { ITodoList } from 'src/app/core/todo-lists/models/todo-list.model';
 export class SearchComponent implements OnInit {
 
     @Input() itemsList?: ITodoItem[];
-    @Input() filteredItemsList!: ITodoItem[];
-    @Output() filteredItemsListChange = new EventEmitter<ITodoItem[]>();
+    //@Input() filteredItemsList!: ITodoItem[];
+    //@Output() filteredItemsListChange = new EventEmitter<ITodoItem[]>();
+
+    items$!: Observable<ITodoItem[]>;
+    private searchTerms = new Subject<string>();
 
     choiceShowAll: boolean = false;
     choiceShowUndone: boolean = false;
 
-    constructor() { }
+    filter: IItemsFilterRequest = {
+        todoListId: 0,
+        textFilter: '',
+        statusFilter: 0
+    };
+
+    constructor(
+        private itemsService: TodoItemsService,
+    ) { }
 
     ngOnInit(): void {
-
-
+        this.items$ = this.searchTerms.pipe(
+            debounceTime(300),
+            distinctUntilChanged(),
+            // switch to new search observable each time the term changes
+            switchMap(() => this.itemsService.getFilteredItemsByListId(this.filter)),
+        );
     }
 
-    showStatus() {
+    fillFilter(text: string, showUndone:boolean) {
 
-        if (!this.itemsList) {
-            return;
+        this.filter.textFilter = text;
+
+        if (this.itemsList && this.itemsList.length > 0) {
+            this.filter.todoListId = this.itemsList[0].todoListId;
         }
 
-        if (this.choiceShowUndone) {
-            
-            /*
-            this.emptyFilter();
-            for(var item of this.itemsList){
-                if(!item.isDone) {
-                    this.filteredItemsList.push(item);
-                }
-            }
-            */
-            this.filteredItemsList = this.itemsList.filter(x => !x.isDone);
+        if (showUndone) {
+            this.filter.statusFilter = itemStatusEnum.Undone;
+        } else {
+            this.filter.statusFilter = itemStatusEnum.None;
         }
-        else {
-            
-            this.filteredItemsList = this.itemsList;
-            //this.refreshFiltered();
-        }
-
-        this.filteredItemsListChange.emit(this.filteredItemsList);
     }
-/*
-    refreshFiltered()
-    {
-        this.emptyFilter();
-        
-        if( !this.itemsList || this.itemsList.length < 0) { return; }
-        
-        for(var item of this.itemsList){
-            this.filteredItemsList.push(item);
-        }
 
-    }
-    
-    emptyFilter()
-    {
-        while(this.filteredItemsList.length > 0){
-            this.filteredItemsList.pop();
-        }
+    search(text: string, showUndone: boolean): void {
 
+        this.fillFilter(text, showUndone);
+
+        this.searchTerms.next();
+        this.items$.subscribe(items => {
+            this.refreshItemsList(items);
+        });;
     }
-*/
+
+    refreshItemsList(newItems: ITodoItem[]): void{
+        while (this.itemsList!.length > 0) {
+            this.itemsList!.pop();
+        }
+        for (var item of newItems) {
+            this.itemsList?.push(item);
+        }
+    }
 }

@@ -5,6 +5,7 @@ import { HttpService } from "../http/http.service";
 import { IAddItemRequest } from './models/add-item-request.model';
 import { ITodoItem } from './models/todo-item.model';
 import { IUpdateItemRequest } from './models/update-item-request.model';
+import { IItemsFilterRequest } from "./models/items-filter-request.model";
 
 
 @Injectable({
@@ -22,6 +23,13 @@ export class TodoItemsService {
     getItemsByListId(listId: number): Observable<ITodoItem[]> {
         const url = this._apiUrl + '?todoListId=' + listId;
         return this.httpService.request('get', url);
+    }
+
+    getFilteredItemsByListId(filter: IItemsFilterRequest): Observable<ITodoItem[]> {
+        const url = this._apiUrl + '/filter';
+        const body = this.mapToFormData(filter);
+        
+        return this.httpService.request('post', url, { body: body });
     }
 
     addNewItemToList(newItem: IAddItemRequest): Observable<ITodoItem> {
