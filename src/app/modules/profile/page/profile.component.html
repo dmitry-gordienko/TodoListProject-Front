@@ -1,0 +1,35 @@
+<table>
+    <tr width="100%">
+        <td width="25%">
+            <label></label>
+            <img height="200px"  width="200px" style="margin-bottom: 10px;">
+            <button id="delete-avatar-button" style="margin-right: 5px;">Delete</button>
+            <button id="upload-avatar-button" style="margin-left: 5px;">Upload</button>
+            
+        </td>
+        <td width="10px"></td>
+        <td>
+            <form [formGroup]="userInfoForm" (ngSubmit)="onSubmit()">
+
+                <label for="nickname-field">Nickname:</label>
+                <input id="nickname-field" type="text"  formControlName="username" >
+                
+                <label for="name-field">Name:</label>
+                <input id="name-field"type="text" formControlName="name" >
+
+                <label for="surname-field">Surname:</label>
+                <input id="surname-field" type="text"  formControlName="surname" >
+
+                <tr width="100%">
+                    <td width="50%"></td>
+                    <td width="50%">
+                        <button id="save-info-button" type="submit" [disabled]="!userInfoForm.valid" >Save info</button>
+                    </td>
+                    
+                </tr>
+
+            </form> 
+        </td>
+    </tr>
+
+</table>

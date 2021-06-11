@@ -18,6 +18,11 @@ const routes: Routes = [
         path: 'main',
         loadChildren: () => import('./modules/main/main.module').then(m => m.MainModule)
     },
+    {
+        path: 'profile',
+        loadChildren: () => import('./modules/profile/profile.module').then(m => m.ProfileModule)
+    }
+    
 ];
 
 @NgModule({
