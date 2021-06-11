@@ -47,4 +47,16 @@ export class HttpService extends HttpClient {
         return new HttpClient(handler).request(method, url, options);
     }
 
+    mapToFormData(obj: any): FormData {
+        const form = new FormData();
+        const keys = Object.keys(obj);
+
+        for (let key of keys) {
+            let val = obj[key];
+            form.append(key, val.toString());
+        }
+
+        return form;
+    }
+
 }

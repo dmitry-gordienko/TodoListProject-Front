@@ -27,18 +27,18 @@ export class TodoItemsService {
 
     getFilteredItemsByListId(filter: IItemsFilterRequest): Observable<ITodoItem[]> {
         const url = this._apiUrl + '/filter';
-        const body = this.mapToFormData(filter);
+        const body = this.httpService.mapToFormData(filter);
         
         return this.httpService.request('post', url, { body: body });
     }
 
     addNewItemToList(newItem: IAddItemRequest): Observable<ITodoItem> {
-        const body = this.mapToFormData(newItem);
+        const body = this.httpService.mapToFormData(newItem);
         return this.httpService.request('post', this._apiUrl, { body: body });
     }
 
     modifyItem(item: IUpdateItemRequest): Observable<any> {
-        const body = this.mapToFormData(item);
+        const body = this.httpService.mapToFormData(item);
         return this.httpService.request('patch', this._apiUrl, { body: body });
     }
 
@@ -47,16 +47,6 @@ export class TodoItemsService {
         return this.httpService.request('delete', url);
     }
 
-    mapToFormData(obj: any): FormData {
-        const form = new FormData();
-        const keys = Object.keys(obj);
-
-        for (let key of keys) {
-            let val = obj[key];
-            form.append(key, val.toString());
-        }
-
-        return form;
-    }
+    
 
 }
