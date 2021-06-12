@@ -10,8 +10,8 @@ export class SpinnerService {
         type: 'square-jelly-box',
         size: 'medium',
         bdColor: 'rgba(0, 0, 0, .5)',
-        color: 'white',
-        fullScreen: true
+        color: 'black',
+        fullScreen: false
     };
 
     constructor(

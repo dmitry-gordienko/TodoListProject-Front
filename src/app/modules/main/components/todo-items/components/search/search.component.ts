@@ -5,6 +5,7 @@ import { ITodoItem } from 'src/app/core/todo-items/models/todo-item.model';
 import { TodoItemsService } from "../../../../../../core/todo-items/todo-items.service";
 import { IItemsFilterRequest } from "../../../../../../core/todo-items/models/items-filter-request.model";
 import { itemStatusEnum } from "../../../../../../core/todo-items/enums/item-status-filter.enum";
+import { SpinnerService } from "../../../../../../shared/spinner/spinner.service";
 
 @Component({
     selector: 'app-search',
@@ -31,6 +32,7 @@ export class SearchComponent implements OnInit {
 
     constructor(
         private itemsService: TodoItemsService,
+        private spinner: SpinnerService,
     ) { }
 
     ngOnInit(): void {
@@ -42,7 +44,7 @@ export class SearchComponent implements OnInit {
         );
     }
 
-    fillFilter(text: string, showUndone:boolean) {
+    fillFilter(text: string, showUndone: boolean) {
 
         this.filter.textFilter = text;
 
@@ -58,16 +60,29 @@ export class SearchComponent implements OnInit {
     }
 
     search(text: string, showUndone: boolean): void {
-
+        //debugger;
+        console.log(this.itemsList);
         this.fillFilter(text, showUndone);
+        
+
 
         this.searchTerms.next();
-        this.items$.subscribe(items => {
-            this.refreshItemsList(items);
-        });;
+        
+        //this.spinner.show();
+        this.items$.subscribe(
+            items => {
+                this.refreshItemsList(items);
+                //this.spinner.hideWithDelay(500);
+            },
+            error => {
+                console.log(error);
+            }
+        );
+        //this.spinner.hideWithDelay(500);
     }
 
-    refreshItemsList(newItems: ITodoItem[]): void{
+    refreshItemsList(newItems: ITodoItem[]): void {
+        //debugger;
         while (this.itemsList!.length > 0) {
             this.itemsList!.pop();
         }

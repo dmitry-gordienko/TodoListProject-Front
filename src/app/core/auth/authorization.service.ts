@@ -12,6 +12,8 @@ import { IAuthTokensResponse } from './models/token.model';
 import { ILoginRequest } from './models/login.model';
 import { IRegistrationRequest } from './models/registration.model';
 
+import { UserService } from "../../core/user/user.service";
+
 
 @Injectable({
     providedIn: 'root'
@@ -32,6 +34,7 @@ export class AuthorizationService {
         private popUpMsg: PopUpMessageService,
         private spinner: SpinnerService,
         private localStorageService: LocalStorageService,
+        private userService: UserService
 
     ) { }
 
@@ -88,6 +91,7 @@ export class AuthorizationService {
 
                     this.spinner.hideWithDelay().then(() => {
                         console.log('Login success!', data);
+                        this.userService.initiateUser();
                         this.router.navigateByUrl('/');
                         this.isAuthorized = true;
                     });
@@ -173,6 +177,8 @@ export class AuthorizationService {
                     this.isAuthorized = true;
                     this.spinner.hideWithDelay().then(() => {
                         console.log('Login success!', data);
+                        debugger;
+                        this.userService.initiateUser();
                         this.router.navigateByUrl('/');
                     });
                 },

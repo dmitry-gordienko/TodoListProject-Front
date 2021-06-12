@@ -15,6 +15,8 @@ import { PopUpMessageService } from './shared/pop-up-message/pop-up-message.serv
 import { SpinnerService } from './shared/spinner/spinner.service';
 import { SharedModule } from './shared/shared.module';
 
+import { AuthorizationService } from "./core/auth/authorization.service";
+import { UserService } from "./core/user/user.service";
 
 @NgModule({
     imports: [
@@ -41,6 +43,8 @@ import { SharedModule } from './shared/shared.module';
     providers: [
         PopUpMessageService,
         SpinnerService,
+        AuthorizationService,
+        UserService
     ]
 })
 
