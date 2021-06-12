@@ -1,15 +1,23 @@
 <!--
+  <a href="/">
+  -->
 <a [routerLink]="['/']">
--->
-<a href="/">
-  
-  <h1>Todo list application</h1>
+  <h1>Todo list</h1>
 </a>
 
-<div *ngIf="this.authService.isAuthorized" class="button fancy-button" (click)="logout()" >
-  <i class="material-icons">logout</i>Logout
-</div>
 
+<div *ngIf="this.authService.isAuthorized">
+  
+  <a [routerLink]="['/profile']">
+    <img height="64" width="64" src="../../../assets/default-avatar.png" style="position: relative; right: -10%;">
+  </a>
+  <br>  
+  <div  class="button fancy-button logout" (click)="logout()">
+    <i class="material-icons" style="font-size: 18px;" >logout</i>Logout
+  </div>
+
+
+</div>
 
 <!-- 
 Copyright Google LLC. All Rights Reserved.

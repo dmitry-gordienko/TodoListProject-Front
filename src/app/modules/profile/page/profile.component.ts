@@ -19,7 +19,9 @@ export class ProfileComponent implements OnInit {
 
   });
 
-  currentUser?:IUserFullModel;
+  currentUser?: IUserFullModel;
+
+  avatarUrl:string ='../../../assets/default-avatar.png';
 
   constructor(
     private formBuilder: FormBuilder,
@@ -28,6 +30,12 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit(): void {
     this.currentUser = this.userService.currentUser;
+    this.userInfoForm.patchValue({
+      username: this.currentUser!.username,
+      name: this.currentUser!.name,
+      surname: this.currentUser!.surname,
+    });
+
     //console.log('profile onInit: ', this.currentUser);
   }
 

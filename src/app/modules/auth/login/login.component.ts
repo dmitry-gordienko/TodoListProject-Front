@@ -35,7 +35,7 @@ export class LoginComponent implements OnInit {
     }
 
     checkAuth() {
-        this.authService.tryToLogin();
+        this.authService.autoLogin();
     }
 
     ngOnInit(): void { }

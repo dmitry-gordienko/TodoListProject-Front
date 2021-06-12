@@ -20,9 +20,7 @@ export class TopBarComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.authService.isAuthorized) {
-      this.isLoggedIn = true;
-    }
+    this.isLoggedIn = this.authService.isAuthorized;
     console.log('Logged in: ', this.isLoggedIn);
   }
 

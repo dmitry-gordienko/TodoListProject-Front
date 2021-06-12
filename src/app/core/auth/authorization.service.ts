@@ -47,29 +47,33 @@ export class AuthorizationService {
     }
 
     authOnInit() {
+        /*
         if(this.isAuthorized){
             console.log('Already authorized!');
             return;
-        }
-        console.log('Auth needed!');
+        }*/
+        //console.log('Auth needed!');
 
-        console.log('1 - ',this.isAuthorized);
+        //console.log('1 - ',this.isAuthorized);
         const accessToken = this.localStorageService.getAccessToken();
-        const refreshToken = this.localStorageService.getRefreshToken();
+        //const refreshToken = this.localStorageService.getRefreshToken();
 
-        if (accessToken && refreshToken)
-            this.tryToLogin();
-            console.log('2 - ',this.isAuthorized);
+        if (accessToken/* && refreshToken*/) {
+            this.autoLogin();
+            console.log('2 - ', this.isAuthorized);
+        }
+        if (this.isAuthorized) {
+            this.userService.initiateUser();
+            this.router.navigateByUrl('/main');
+        }
 
-        
-            if (
-            this.location.path() === '/register' ||
+        if (this.location.path() === '/register' ||
             this.location.path() === '/login'
         ) {
-            console.log('3 - ',this.isAuthorized);
+            console.log('3 - ', this.isAuthorized);
             return;
         }
-        console.log('4 - ',this.isAuthorized);
+        console.log('4 - ', this.isAuthorized);
         this.router.navigateByUrl('/login');
     }
 
@@ -102,7 +106,7 @@ export class AuthorizationService {
                     this.spinner.hideWithDelay().then(() => {
                         console.log('Login error!', error);
                         this.popUpMsg.showErrorMsg('Failed to login!', errorMsg);
-                        
+
                     });
 
                 },
@@ -144,26 +148,22 @@ export class AuthorizationService {
     }
 
     logout() {
-        //this.ClearStoredCredentials();
+        this.ClearStoredCredentials();
+        this.router.navigateByUrl('/login');
+    }
+
+    ClearStoredCredentials() {
         this.localStorageService.removeAccessToken();
         this.localStorageService.removeRefreshToken();
         this.isAuthorized = false;
-        this.router.navigateByUrl('/login');
     }
-    /*
-        ClearStoredCredentials() {
-            this.localStorageService.removeAccessToken();
-            this.localStorageService.removeRefreshToken();
-            this.isAuthorized = false;
-        }
-        */
     /*
         GetAccessToken() {
             return localStorage.getItem(this.accessTokenName);
         }
         */
 
-    tryToLogin() {
+    autoLogin() {
         this.spinner.show();
         console.log('Trying to login...');
         const accessToken = this.localStorageService.getAccessToken();
@@ -177,13 +177,11 @@ export class AuthorizationService {
                     this.isAuthorized = true;
                     this.spinner.hideWithDelay().then(() => {
                         console.log('Login success!', data);
-                        debugger;
-                        this.userService.initiateUser();
                         this.router.navigateByUrl('/');
                     });
                 },
                 error => {
-                    this.isAuthorized = false;
+                    //this.isAuthorized = false;
                     this.spinner.hideWithDelay().then(() => {
                         console.log('Login fail!', error);
                         this.tryToRefreshToken();
@@ -216,11 +214,11 @@ export class AuthorizationService {
                     });
                 },
                 error => {
-                    this.isAuthorized = false;
+                    //this.isAuthorized = false;
 
                     this.spinner.hideWithDelay().then(() => {
-                        this.router.navigateByUrl('/login');
                         console.log('Auth check error!', error);
+                        this.router.navigateByUrl('/login');
                     });
 
                 },
@@ -241,10 +239,10 @@ export class AuthorizationService {
         data.append('RefreshToken', refreshToken || '');
 
         return this.httpClient.post<IAuthTokensResponse>(this._authRefreshUrl, data)
-        .pipe(
-            map((res: IAuthTokensResponse) => {this.setSessionAfterLogin(res); return res;})
-        );
-            
+            .pipe(
+                map((res: IAuthTokensResponse) => { this.setSessionAfterLogin(res); return res; })
+            );
+
     }
 
 }

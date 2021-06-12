@@ -48,8 +48,9 @@ export class UserService {
                     /*
                     this.rnd = Math.random();
                     console.log(this.rnd);
-                    console.log('user init result: ',data);
                     */
+                    console.log('user init result: ', data);
+                    
                 }/*,
                 error => {
                     this.popUpMsg.showErrorMsg('Error', "Something wrong");

@@ -1,6 +1,6 @@
 export interface IUserFullModel {
     id: number;
-    userName: string;
+    username: string;
     email: string;
     password: string;
     name: string;
