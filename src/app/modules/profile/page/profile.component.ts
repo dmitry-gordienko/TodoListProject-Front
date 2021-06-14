@@ -38,7 +38,7 @@ export class ProfileComponent implements OnInit {
     }
 
     initComponentData() {
-        this.user = this.userService.currentUser!;
+        this.user = this.userService.user!;
         this.userInfoForm.patchValue({
             username: this.user!.username,
             name: this.user!.name,
@@ -51,7 +51,6 @@ export class ProfileComponent implements OnInit {
             .subscribe(
                 (data: IUserFullModel) => {
                     this.initComponentData();
-                    //this.user.avatar = data.avatar;
                     this.popUpMsg.showSuccessMsg('Success', "Avatar deleted.");
                 },
                 error => {

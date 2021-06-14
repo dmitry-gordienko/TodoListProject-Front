@@ -12,16 +12,10 @@ import { UserService } from "../../core/user/user.service";
 export class TopBarComponent implements OnInit {
 
   private isLoggedIn: boolean = false;
-  //@Input() avatarUrl?: string;
-
-  //@Input() itemsList?: ITodoItem[];
-
-  //user$: Observable<IUserFullModel>;
-  user?: IUserFullModel;
 
   constructor(
     public readonly authService: AuthorizationService,
-    public readonly userService: UserService
+    public readonly userService: UserService,
   ) { }
 
   logout() {
@@ -31,14 +25,8 @@ export class TopBarComponent implements OnInit {
 
   ngOnInit() {
     this.isLoggedIn = this.authService.isAuthorized;
-    this.user = this.userService.currentUser;
-    //this.user$ = this.userService.userChange;
-    //this.avatarUrl = this.userService.avatarLink;
     console.log('Logged in: ', this.isLoggedIn);
-    //console.log('Avatar URL: ',this.avatarUrl);
   }
-
-
 
 }
 

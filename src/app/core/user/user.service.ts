@@ -19,7 +19,7 @@ export class UserService {
 
     //public avatarLink: string = '';
 
-    public currentUser!: IUserFullModel;
+    public user!: IUserFullModel;
 
     @Output() userChange = new EventEmitter<IUserFullModel>();
     
@@ -32,11 +32,12 @@ export class UserService {
     }
 
     initUserData(userData: IUserFullModel) {
-        this.currentUser = userData;
-        this.currentUser.avatar = this.avatarService.makeAvatarUrl(this.currentUser.avatar);
+        //this.updateData(userData, this.currentUser);
+        this.user = userData;
+        this.user.avatar = this.avatarService.makeAvatarUrl(this.user.avatar);
 
         //this.avatarLink = this.avatarService.makeAvatarUrl(this.currentUser.avatar);
-        this.userChange.emit(this.currentUser);
+        this.userChange.emit(this.user);
     }
 
     submitUserInfo(data: IUserProfileUpdateRequest): Observable<IUserFullModel> {
@@ -51,6 +52,7 @@ export class UserService {
     }
 
     deleteAvatar(): Observable<IUserFullModel> {
+        //this.user.avatar=undefined;
         return this.httpService
             .request('delete', this._apiAvatarUrl)
             .pipe(
@@ -79,5 +81,14 @@ export class UserService {
                     this.initUserData(data);
                     console.log('user init result: ', data);
                 });
+    }
+
+    updateData(sourceObj: any, destinationObj: any): void {
+        
+        const keys = Object.keys(sourceObj);
+
+        for (let key of keys) {
+            destinationObj[key] = sourceObj[key];
+        }
     }
 }
