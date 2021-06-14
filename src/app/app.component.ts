@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { AuthorizationService } from './core/auth/authorization.service';
+import { IUserFullModel } from './core/user/models/user-full.model';
 
 @Component({
     selector: 'app-root',
@@ -8,11 +9,21 @@ import { AuthorizationService } from './core/auth/authorization.service';
 })
 export class AppComponent {
 
+    user?: IUserFullModel;
+
     constructor(private authorizationService: AuthorizationService) { }
 
     ngOnInit() {
         this.authorizationService.authOnInit();
+        /*
+        .subscribe(
+            data => {
+                this.user = data;
+            }
+        );*/
     }
+
+
 
 }
 

@@ -9,7 +9,7 @@
 <div *ngIf="this.authService.isAuthorized">
   
   <a [routerLink]="['/profile']">
-    <img height="64" width="64" [src]="this.user ? '1': '/assets/default-avatar.png' " style="position: relative; right: -10%;">
+    <img height="64" width="64" [src]="this.user ? '': '/assets/default-avatar.png' " style="position: relative; right: -10%;">
   </a>
   <br>  
   <div  class="button fancy-button logout" (click)="logout()">

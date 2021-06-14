@@ -5,7 +5,7 @@ export interface IUserFullModel {
     password: string;
     name: string;
     surname: string;
-    avatar: string;
+    avatar?: string;
     createdAt: Date;
     lastAccessAt: Date;
     roles: string[];

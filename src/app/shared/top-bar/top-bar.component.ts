@@ -31,6 +31,7 @@ export class TopBarComponent implements OnInit {
 
   ngOnInit() {
     this.isLoggedIn = this.authService.isAuthorized;
+    this.user = this.userService.currentUser;
     //this.user$ = this.userService.userChange;
     //this.avatarUrl = this.userService.avatarLink;
     console.log('Logged in: ', this.isLoggedIn);

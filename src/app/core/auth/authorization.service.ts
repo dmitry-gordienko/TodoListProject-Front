@@ -46,7 +46,7 @@ export class AuthorizationService {
         return headers;
     }
 
-    authOnInit() {
+    authOnInit(){
         /*
         if(this.isAuthorized){
             console.log('Already authorized!');
@@ -71,10 +71,10 @@ export class AuthorizationService {
             this.location.path() === '/login'
         ) {
             console.log('3 - ', this.isAuthorized);
-            return;
         }
         console.log('4 - ', this.isAuthorized);
         this.router.navigateByUrl('/login');
+        
     }
 
     login(loginForm: ILoginRequest) {

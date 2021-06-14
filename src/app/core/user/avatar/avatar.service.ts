@@ -15,10 +15,11 @@ export class AvatarService {
 
     }
 
-    makeAvatarUrl(avatar:string):string{
+    makeAvatarUrl(avatar:string | undefined):string | undefined{
         if(avatar){
             return `${this._avatarHostUrl}/${avatar}${this._avatarFileExt}`;
         }
-        return `${this._avatarHostUrl}/${this._avatarDefaultFilename}${this._avatarFileExt}`;
+        //return `${this._avatarHostUrl}/${this._avatarDefaultFilename}${this._avatarFileExt}`;
+        return undefined;
     }
 }

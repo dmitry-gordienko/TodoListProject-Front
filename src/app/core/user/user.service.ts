@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable, Output } from '@angular/core';
 import { environment } from "../../../environments/environment";
 import { Observable } from 'rxjs';
 import { HttpService } from "../http/http.service";
@@ -17,9 +17,12 @@ export class UserService {
     private _apiInfoUrl: string = this._apiUrl + '/info';
     private _apiAvatarUrl: string = this._apiUrl + '/avatar';
 
-    public avatarLink: string = '';
+    //public avatarLink: string = '';
 
-    public currentUser?: IUserFullModel;
+    public currentUser!: IUserFullModel;
+
+    @Output() userChange = new EventEmitter<IUserFullModel>();
+    
 
     constructor(
         private httpService: HttpService,
@@ -30,7 +33,10 @@ export class UserService {
 
     initUserData(userData: IUserFullModel) {
         this.currentUser = userData;
-        this.avatarLink = this.avatarService.makeAvatarUrl(this.currentUser.avatar);
+        this.currentUser.avatar = this.avatarService.makeAvatarUrl(this.currentUser.avatar);
+
+        //this.avatarLink = this.avatarService.makeAvatarUrl(this.currentUser.avatar);
+        this.userChange.emit(this.currentUser);
     }
 
     submitUserInfo(data: IUserProfileUpdateRequest): Observable<IUserFullModel> {
@@ -53,22 +59,25 @@ export class UserService {
                 })
             );
     }
-
+    
+    /*    
+    initiateUser(): Observable<IUserFullModel> {
+        return this.httpService
+            .request('get', this._apiInfoUrl)
+            .pipe(
+                map((data: IUserFullModel) => {
+                    this.initUserData(data);
+                })
+            );
+    }
+    */
     initiateUser(): void {
         this.httpService
             .request('get', this._apiInfoUrl)
             .subscribe(
                 (data: IUserFullModel) => {
                     this.initUserData(data);
-                    //this.currentUser = data;
-                    //this.avatarLink = this.avatarService.makeAvatarUrl(this.currentUser.avatar);
-
                     console.log('user init result: ', data);
-
-                }/*,
-                error => {
-                    this.popUpMsg.showErrorMsg('Error', "Something wrong");
-                }*/);
+                });
     }
-
 }

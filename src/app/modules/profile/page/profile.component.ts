@@ -7,6 +7,7 @@ import { PopUpMessageService } from 'src/app/shared/pop-up-message/pop-up-messag
 import { IUserFullModel } from "../../../core/user/models/user-full.model";
 import { IUserProfileUpdateRequest } from "../../../core/user/models/user-profile-update-request.model";
 import { UserService } from "../../../core/user/user.service";
+import { environment } from "../../../../environments/environment";
 
 @Component({
     selector: 'app-profile',
@@ -22,39 +23,35 @@ export class ProfileComponent implements OnInit {
 
     });
 
-    currentUser?: IUserFullModel;
-
-    avatarUrl!: string;
+    user!: IUserFullModel;
 
     constructor(
         private formBuilder: FormBuilder,
         private router: Router,
         private popUpMsg: PopUpMessageService,
-        private userService: UserService
+        private userService: UserService,
     ) { }
 
     ngOnInit(): void {
-        this.initPageData();
+        this.initComponentData();
         //console.log('profile onInit: ', this.currentUser);
     }
 
-    initPageData() {
-        this.currentUser = this.userService.currentUser;
+    initComponentData() {
+        this.user = this.userService.currentUser!;
         this.userInfoForm.patchValue({
-            username: this.currentUser!.username,
-            name: this.currentUser!.name,
-            surname: this.currentUser!.surname,
+            username: this.user!.username,
+            name: this.user!.name,
+            surname: this.user!.surname,
         });
-        this.avatarUrl = this.userService.avatarLink;
     }
 
     deleteAvatar() {
         this.userService.deleteAvatar()
             .subscribe(
-                (data: any) => {
-                    console.log(this.avatarUrl);
-                    this.initPageData();
-                    console.log(this.avatarUrl);
+                (data: IUserFullModel) => {
+                    this.initComponentData();
+                    //this.user.avatar = data.avatar;
                     this.popUpMsg.showSuccessMsg('Success', "Avatar deleted.");
                 },
                 error => {
@@ -64,7 +61,6 @@ export class ProfileComponent implements OnInit {
     }
 
     onInfoSubmit() {
-
         let info: IUserProfileUpdateRequest = {
             username: this.userInfoForm.get('username')!.value,
             name: this.userInfoForm.get('name')!.value,
@@ -74,7 +70,7 @@ export class ProfileComponent implements OnInit {
         this.userService.submitUserInfo(info)
             .subscribe(
                 (data: any) => {
-                    this.initPageData();
+                    this.initComponentData();
                     this.popUpMsg.showSuccessMsg('Success', "Profile saved.");
                 },
                 error => {

@@ -7,7 +7,10 @@
             <label>{{currentUser[0]}}</label>
             <label>{{currentUser.surname}}</label>
             -->
-            <img height="200px" width="200px" style="margin-bottom: 10px;" [src]="avatarUrl">
+            
+            <img height="200px" width="200px" style="margin-bottom: 10px;"
+            [src]="user.avatar ? user.avatar : '/assets/default-avatar.png'" >
+            
             <button id="delete-avatar-button" style="margin-right: 5px;" (click)="deleteAvatar();" >Delete</button>
             <button id="upload-avatar-button" style="margin-left: 5px;">Upload</button>
 
@@ -52,7 +55,7 @@
     <tr width="100%">
         <td width="50%"></td>
         <td width="50%">
-            <button id="save-info-button" type="submit" [disabled]="!userInfoForm.valid">Save info</button>
+            <button id="save-info-button" type="submit" [disabled]="!userInfoForm.valid">Save Info</button>
         </td>
     </tr>
 

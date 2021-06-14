@@ -1,4 +1,4 @@
-<app-top-bar></app-top-bar>
+<app-top-bar [user]="user"></app-top-bar>
 
 <ngx-spinner>
   <p style="color: white" ></p>
@@ -6,7 +6,7 @@
 
 <br>
 <div class="container">
-  <router-outlet></router-outlet>
+  <router-outlet [user]="user"></router-outlet>
 </div>
 
 <!-- 
