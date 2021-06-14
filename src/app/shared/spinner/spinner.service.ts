@@ -26,7 +26,7 @@ export class SpinnerService {
         this.spinner.hide();
     }
 
-    async hideWithDelay(milliseconds: number = 1000) {
+    async hideWithDelay(milliseconds: number = 250) {
         setTimeout(() => {
             this.hide();
         },
