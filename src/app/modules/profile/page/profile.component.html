@@ -8,7 +8,7 @@
             <label>{{currentUser.surname}}</label>
             -->
             <img height="200px" width="200px" style="margin-bottom: 10px;" [src]="avatarUrl">
-            <button id="delete-avatar-button" style="margin-right: 5px;">Delete</button>
+            <button id="delete-avatar-button" style="margin-right: 5px;" (click)="deleteAvatar();" >Delete</button>
             <button id="upload-avatar-button" style="margin-left: 5px;">Upload</button>
 
         </td>
@@ -19,18 +19,41 @@
                 <label for="nickname-field">Nickname:</label>
                 <input id="nickname-field" type="text" formControlName="username">
 
+                <div *ngIf="userInfoForm.controls['username'].invalid && (userInfoForm.controls['username'].dirty || userInfoForm.controls['username'].touched)" class="alert alert-danger">
+                    <div class="form-error-message" *ngIf="userInfoForm.controls['username'].errors">
+                      <sup class="form-error-message">*</sup>Please enter you nickname
+                      <br><br>
+                    </div>
+                </div>
+
                 <label for="name-field">Name:</label>
                 <input id="name-field" type="text" formControlName="name">
 
+                <div *ngIf="userInfoForm.controls['name'].invalid && (userInfoForm.controls['name'].dirty || userInfoForm.controls['name'].touched)" class="alert alert-danger">
+                    <div class="form-error-message" *ngIf="userInfoForm.controls['name'].errors" style="color: crimson;">
+                      <sup class="form-error-message">*</sup>Please enter your name
+                      <br><br>
+                    </div>
+                </div>
+
+
                 <label for="surname-field">Surname:</label>
                 <input id="surname-field" type="text" formControlName="surname">
+
+                <div *ngIf="userInfoForm.controls['surname'].invalid && (userInfoForm.controls['surname'].dirty || userInfoForm.controls['surname'].touched)" class="alert alert-danger">
+                    <div class="form-error-message" *ngIf="userInfoForm.controls['surname'].errors">
+                      <sup class="form-error-message">*</sup>Please enter your surname
+                      <br><br>
+                    </div>
+                </div>
+
+
 
     <tr width="100%">
         <td width="50%"></td>
         <td width="50%">
             <button id="save-info-button" type="submit" [disabled]="!userInfoForm.valid">Save info</button>
         </td>
-
     </tr>
 
     </form>

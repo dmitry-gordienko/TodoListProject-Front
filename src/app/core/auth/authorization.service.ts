@@ -63,8 +63,8 @@ export class AuthorizationService {
             console.log('2 - ', this.isAuthorized);
         }
         if (this.isAuthorized) {
-            this.userService.initiateUser();
-            this.router.navigateByUrl('/main');
+            this.userService.initiateUser();//.subscribe(data=>{this.router.navigateByUrl('/main');});
+            
         }
 
         if (this.location.path() === '/register' ||
