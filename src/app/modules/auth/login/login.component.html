@@ -8,8 +8,9 @@
       <div>
           <label for="email">
             Email:
-          </label>
-          <input id="email" name="email" type="text" formControlName="email">
+            <br>
+            <input id="email" name="email" type="text" formControlName="email">
+        </label>
 
           
           <div *ngIf="loginForm.controls['email'].invalid && (loginForm.controls['email'].dirty || loginForm.controls['email'].touched)" class="alert alert-danger">
@@ -26,8 +27,9 @@
       <div>
         <label for="password">
           Password:
+          <br>
+          <input id="password" name="password" type="password" formControlName="password">
         </label>
-        <input id="password" name="password" type="password" formControlName="password">
         
         <div *ngIf="loginForm.controls['password'].invalid && (loginForm.controls['password'].dirty || loginForm.controls['password'].touched)" class="alert alert-danger">
           <div class="invalid-feedback" *ngIf="loginForm.controls['password'].errors" style="color: crimson;">

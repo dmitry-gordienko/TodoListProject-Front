@@ -9,8 +9,9 @@
     <div>
       <label for="username">
         User name:
-      </label>
-      <input id="username" type="text" formControlName="username" >
+        <br>
+        <input id="username" type="text" formControlName="username" >
+    </label>
       
       <!-- Validation highlight -->
       <div *ngIf="registrationForm.controls['username'].invalid && (registrationForm.controls['username'].dirty || registrationForm.controls['username'].touched)" class="alert alert-danger">
@@ -25,8 +26,9 @@
     <div>
       <label for="email">
         Email:
-      </label>
-      <input id="email" type="text" formControlName="email" >
+        <br>
+        <input id="email" type="text" formControlName="email" >
+    </label>
 
       <!-- Validation highlight -->
       <div *ngIf="registrationForm.controls['email'].invalid && (registrationForm.controls['email'].dirty || registrationForm.controls['email'].touched)" class="alert alert-danger">
@@ -41,8 +43,9 @@
     <div>
       <label for="password">
         Password:
-      </label>
-      <input id="password" type="text" formControlName="password" >
+        <br>
+        <input id="password" type="text" formControlName="password" >
+    </label>
       
       <!-- Validation highlight -->
       <div *ngIf="registrationForm.controls['password'].invalid && (registrationForm.controls['password'].dirty || registrationForm.controls['password'].touched)" class="alert alert-danger">

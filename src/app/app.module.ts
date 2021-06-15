@@ -17,6 +17,7 @@ import { SharedModule } from './shared/shared.module';
 
 import { AuthorizationService } from "./core/auth/authorization.service";
 import { UserService } from "./core/user/user.service";
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
     imports: [
@@ -30,6 +31,7 @@ import { UserService } from "./core/user/user.service";
         NgxSpinnerModule,
         SharedModule,
         AppRoutingModule,
+        NgbModule,
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
     declarations: [

@@ -45,7 +45,7 @@ export class ProfileComponent implements OnInit {
             surname: this.user!.surname,
         });
     }
-
+/*
     deleteAvatar() {
         this.userService.deleteAvatar()
             .subscribe(
@@ -58,7 +58,7 @@ export class ProfileComponent implements OnInit {
                 });
 
     }
-
+*/
     onInfoSubmit() {
         let info: IUserProfileUpdateRequest = {
             username: this.userInfoForm.get('username')!.value,
@@ -78,5 +78,17 @@ export class ProfileComponent implements OnInit {
                 );
 
     }
+
+/*
+    public isModalDialogVisible: boolean = false;
+
+	public showDialog() {
+		this.isModalDialogVisible = true;
+	}
+
+	public closeModal(isConfirmed: boolean) {
+		this.isModalDialogVisible = false;
+	}
+*/
 
 }

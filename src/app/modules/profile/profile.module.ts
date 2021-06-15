@@ -8,7 +8,7 @@ import { ProfileRoutingModule } from './profile-routing.module';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { SpinnerService } from "../../shared/spinner/spinner.service";
 import { ProfileComponent } from "./page/profile.component";
-
+import {NgbdModalBasicModule} from './components/avatar-manager.module';
 
 @NgModule({
     imports: [
@@ -17,10 +17,12 @@ import { ProfileComponent } from "./page/profile.component";
         ReactiveFormsModule,
         SharedModule,
         NgxSpinnerModule,
-        ProfileRoutingModule
+        ProfileRoutingModule,
+        NgbdModalBasicModule
+        //BrowserModule
     ],
     declarations: [
-        ProfileComponent
+        ProfileComponent,
     ],
     providers: [
         SpinnerService,

@@ -7,46 +7,54 @@
             <label>{{currentUser[0]}}</label>
             <label>{{currentUser.surname}}</label>
             -->
-            
+
+            <avatar-manager [user]="user" ></avatar-manager>
+            <!--
             <img height="200px" width="200px" style="margin-bottom: 10px;"
-            [src]="user.avatar ? user.avatar : '/assets/default-avatar.png'" >
-            
-            <button id="delete-avatar-button" style="margin-right: 5px;" (click)="deleteAvatar();" >Delete</button>
-            <button id="upload-avatar-button" style="margin-left: 5px;">Upload</button>
+                [src]="user.avatar ? user.avatar : '/assets/default-avatar.png'">
+
+                <button id="delete-avatar-button" style="margin-right: 5px;" (click)="deleteAvatar();">Delete</button>
+                <button id="upload-avatar-button" style="margin-left: 5px;">Upload</button>
+            -->
 
         </td>
-        <td width="10px"></td>
+        <td width="50px"></td>
         <td>
             <form [formGroup]="userInfoForm" (ngSubmit)="onInfoSubmit()">
 
-                <label for="nickname-field">Nickname:</label>
-                <input id="nickname-field" type="text" formControlName="username">
+                <label for="nickname-field">Nickname:
+                    <br>
+                    <input id="nickname-field" type="text" formControlName="username">
+                </label>
 
-                <div *ngIf="userInfoForm.controls['username'].invalid && (userInfoForm.controls['username'].dirty || userInfoForm.controls['username'].touched)" class="alert alert-danger">
+                <div *ngIf="userInfoForm.controls['username'].invalid && (userInfoForm.controls['username'].dirty || userInfoForm.controls['username'].touched)" >
                     <div class="form-error-message" *ngIf="userInfoForm.controls['username'].errors">
-                      <sup class="form-error-message">*</sup>Please enter you nickname
-                      <br><br>
+                        <sup class="form-error-message">*</sup>Please enter you nickname
                     </div>
                 </div>
+                <br>
 
-                <label for="name-field">Name:</label>
-                <input id="name-field" type="text" formControlName="name">
+                <label for="name-field">Name:
+                    <br>
+                    <input id="name-field" type="text" formControlName="name">
+                </label>
 
-                <div *ngIf="userInfoForm.controls['name'].invalid && (userInfoForm.controls['name'].dirty || userInfoForm.controls['name'].touched)" class="alert alert-danger">
-                    <div class="form-error-message" *ngIf="userInfoForm.controls['name'].errors" style="color: crimson;">
-                      <sup class="form-error-message">*</sup>Please enter your name
-                      <br><br>
+                <div *ngIf="userInfoForm.controls['name'].invalid && (userInfoForm.controls['name'].dirty || userInfoForm.controls['name'].touched)" >
+                    <div class="form-error-message" *ngIf="userInfoForm.controls['name'].errors">
+                        <sup class="form-error-message">*</sup>Please enter your name
                     </div>
                 </div>
+                <br>
 
 
-                <label for="surname-field">Surname:</label>
-                <input id="surname-field" type="text" formControlName="surname">
+                <label for="surname-field">Surname:
+                    <br>
+                    <input id="surname-field" type="text" formControlName="surname">
+                </label>
 
-                <div *ngIf="userInfoForm.controls['surname'].invalid && (userInfoForm.controls['surname'].dirty || userInfoForm.controls['surname'].touched)" class="alert alert-danger">
+                <div *ngIf="userInfoForm.controls['surname'].invalid && (userInfoForm.controls['surname'].dirty || userInfoForm.controls['surname'].touched)" >
                     <div class="form-error-message" *ngIf="userInfoForm.controls['surname'].errors">
-                      <sup class="form-error-message">*</sup>Please enter your surname
-                      <br><br>
+                        <sup class="form-error-message">*</sup>Please enter your surname
                     </div>
                 </div>
 
@@ -62,5 +70,35 @@
     </form>
     </td>
     </tr>
+
+    
+    
+
+    <!--
+        <br>
+        <br>
+        <br>
+        <div class="container">
+            <div class="configuration">
+                <div>
+                    <label for="header">Заголовок:</label>
+                    <input type="text" id="header" #header class="simple-input">
+                </div>
+                <label for="description">Содержимое:</label>
+                <input type="text" id="description" #description content="description" class="simple-input">
+            </div>
+            <div>
+                <button class="simple-button" (click)="showDialog()">Show Dialog</button>
+            </div>
+        </div>
+        <app-avatar-uploader
+        *ngIf="isModalDialogVisible"
+        [header]="header.value"
+        [description]="description.value"
+        (isConfirmed)="closeModal($event)">
+    </app-avatar-uploader>
+    
+-->
+
 
 </table>

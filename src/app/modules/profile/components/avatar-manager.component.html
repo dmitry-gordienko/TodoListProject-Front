@@ -1,0 +1,31 @@
+<img height="200px" width="200px" style="margin-bottom: 10px;"
+              [src]="user.avatar ? user.avatar : '/assets/default-avatar.png'">
+<button id="delete-avatar-button" style="margin-right: 5px;" (click)="deleteAvatar();">Delete</button>
+<button id="upload-avatar-button" style="margin-left: 5px;" (click)="open(content)">Upload</button>
+
+<pre>{{ closeResult }}</pre>
+
+
+<ng-template #content let-modal>
+
+    <div class="modal-header">
+      <h5 class="modal-title" id="modal-basic-title">Crop your avatar picture</h5>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+
+    <div class="modal-body">
+        
+    </div>
+    
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-dark" (click)="modal.close('Cancel click')">Cancel</button>
+      <button type="button" class="btn btn-outline-dark" (click)="modal.close('Confirm click')">Confirm</button>
+    </div>
+  
+</ng-template>
+  <!--
+  <button id="upload-avatar-button" style="margin-left: 5px;">Upload</button>
+  -->
+  
