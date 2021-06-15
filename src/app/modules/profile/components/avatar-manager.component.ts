@@ -1,9 +1,13 @@
 import { Component, Input } from '@angular/core';
 
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { ImageCroppedEvent } from 'ngx-image-cropper';
+import { HttpService } from 'src/app/core/http/http.service';
 import { IUserFullModel } from 'src/app/core/user/models/user-full.model';
 import { UserService } from 'src/app/core/user/user.service';
 import { PopUpMessageService } from 'src/app/shared/pop-up-message/pop-up-message.service';
+import { ImageUploadModel } from '../../../core/http/models/image-upload.model';
+
 
 @Component({
     selector: 'avatar-manager',
@@ -17,14 +21,39 @@ export class AvatarManagerComponent {
     constructor(
         private modalService: NgbModal,
         private popUpMsg: PopUpMessageService,
-        private userService: UserService,) { }
+        private userService: UserService,
+        private httpService: HttpService
+        ) { }
 
     open(content: any) {
+
+        this.cropImgPreview = "";
         this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
-            this.closeResult = `Closed with: ${result}`;
+            ///debugger;
+            let data = this.prepareUploadImageData(result)
+            console.log(data);
+            this.cropImgPreview = '';
+            this.userService.uploadAvatar(data);
+            //this.closeResult = `Closed with: ${result}`;
         }, (reason) => {
-            this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+            //this.cropImgPreview = '';
+            //this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
         });
+    }
+
+    prepareUploadImageData(input: string): ImageUploadModel{
+        let uploadData = new ImageUploadModel();
+        //debugger;
+        let tmp = input.split(',');
+        uploadData.data = tmp[1];
+        
+        tmp = tmp[0].split(';');
+        uploadData.encoding = tmp[1];
+
+        tmp = tmp[0].split('/');
+        uploadData.format = tmp[1];
+        
+        return uploadData
     }
 
     private getDismissReason(reason: any): string {
@@ -48,6 +77,38 @@ export class AvatarManagerComponent {
                     this.popUpMsg.showErrorMsg('Error', "Error deleting avatar.");
                 });
 
+    }
+
+    imgChangeEvt: any = "";
+    cropImgPreview: any = "";
+
+    onFileChange(event: any): void {
+        console.log('onFileChange');
+        //debugger;
+        this.imgChangeEvt = event;
+    }
+    cropImg(e: ImageCroppedEvent) {
+
+        //debugger;
+        console.log('cropp event');
+        console.log(e);
+        //let ev = e as ImageCroppedEvent;
+        this.cropImgPreview = e.base64;
+    }
+
+    imgLoad() {
+        console.log('img loaded');
+        // display cropper tool
+    }
+
+    initCropper() {
+        console.log('cropper init');
+        // init cropper
+    }
+
+    imgFailed() {
+        console.log('img fail');
+        // error msg
     }
 
 

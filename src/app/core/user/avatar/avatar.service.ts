@@ -22,4 +22,6 @@ export class AvatarService {
         //return `${this._avatarHostUrl}/${this._avatarDefaultFilename}${this._avatarFileExt}`;
         return undefined;
     }
+
+    
 }

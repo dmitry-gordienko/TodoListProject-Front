@@ -8,6 +8,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { NgxSpinnerModule } from 'ngx-spinner';
 
+
 import { AppComponent } from './app.component';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -18,6 +19,7 @@ import { SharedModule } from './shared/shared.module';
 import { AuthorizationService } from "./core/auth/authorization.service";
 import { UserService } from "./core/user/user.service";
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+//import { ImageCropperModule } from 'ngx-image-cropper';
 
 @NgModule({
     imports: [
@@ -32,6 +34,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
         SharedModule,
         AppRoutingModule,
         NgbModule,
+        //ImageCropperModule
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
     declarations: [

@@ -1,5 +1,5 @@
 <img height="200px" width="200px" style="margin-bottom: 10px;"
-              [src]="user.avatar ? user.avatar : '/assets/default-avatar.png'">
+    [src]="user.avatar ? user.avatar : '/assets/default-avatar.png'">
 <button id="delete-avatar-button" style="margin-right: 5px;" (click)="deleteAvatar();">Delete</button>
 <button id="upload-avatar-button" style="margin-left: 5px;" (click)="open(content)">Upload</button>
 
@@ -9,23 +9,46 @@
 <ng-template #content let-modal>
 
     <div class="modal-header">
-      <h5 class="modal-title" id="modal-basic-title">Crop your avatar picture</h5>
-      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-        <span aria-hidden="true">&times;</span>
-      </button>
+        <h5 class="modal-title" id="modal-basic-title">Set up your picture</h5>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
     </div>
 
     <div class="modal-body">
-        
-    </div>
-    
+
+        <div class="col-md-12">
+            <input type="file" (change)="onFileChange($event)" />
+        </div>
+
+            <image-cropper
+                [imageChangedEvent]="imgChangeEvt"
+                [maintainAspectRatio]="true"
+                [aspectRatio]="1 / 1"
+                [resizeToWidth]="256"
+                format="png"
+                (imageCropped)="cropImg($event)"
+                (imageLoaded)="imgLoad()"
+                (cropperReady)="initCropper()"
+                (loadImageFailed)="imgFailed()">
+            </image-cropper>
+
+            <h6>Image Preview:</h6>
+            <img [src]="cropImgPreview"
+            />
+            <!--
+                style="border-style:solid; border-width: thin; border-color: black;"
+                    height="256px" width="256px"
+                -->
+
+        </div>
+
     <div class="modal-footer">
-      <button type="button" class="btn btn-outline-dark" (click)="modal.close('Cancel click')">Cancel</button>
-      <button type="button" class="btn btn-outline-dark" (click)="modal.close('Confirm click')">Confirm</button>
+        <button type="button" class="btn btn-outline-dark" (click)="modal.dismiss('Cancel click')">Cancel</button>
+        <button type="button" class="btn btn-outline-dark" (click)="modal.close(cropImgPreview)">Confirm</button>
     </div>
-  
+
 </ng-template>
-  <!--
+<!--
   <button id="upload-avatar-button" style="margin-left: 5px;">Upload</button>
   -->
-  

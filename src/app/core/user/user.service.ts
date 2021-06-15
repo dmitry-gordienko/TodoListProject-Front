@@ -6,6 +6,7 @@ import { IUserProfileUpdateRequest } from './models/user-profile-update-request.
 import { IUserFullModel } from './models/user-full.model';
 import { AvatarService } from './avatar/avatar.service';
 import { map } from 'rxjs/operators';
+import { ImageUploadModel } from '../http/models/image-upload.model';
 
 
 @Injectable({
@@ -60,6 +61,20 @@ export class UserService {
                     this.initUserData(data);
                 })
             );
+    }
+
+    uploadAvatar(data: ImageUploadModel): Observable<any> {
+        const body = this.httpService.mapToFormData(data);
+        return this.httpService
+            .request('post', this._apiAvatarUrl, { body: body })
+            .subscribe(
+                (data: IUserFullModel) => {
+                    this.initUserData(data);
+                   // console.log('user init result: ', data);
+                });
+            
+            
+            
     }
     
     /*    

@@ -8,7 +8,8 @@ import { ProfileRoutingModule } from './profile-routing.module';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { SpinnerService } from "../../shared/spinner/spinner.service";
 import { ProfileComponent } from "./page/profile.component";
-import {NgbdModalBasicModule} from './components/avatar-manager.module';
+import {AvatarManagerModule} from './components/avatar-manager.module';
+//import { ImageCropperModule } from 'ngx-image-cropper';
 
 @NgModule({
     imports: [
@@ -18,7 +19,8 @@ import {NgbdModalBasicModule} from './components/avatar-manager.module';
         SharedModule,
         NgxSpinnerModule,
         ProfileRoutingModule,
-        NgbdModalBasicModule
+        AvatarManagerModule,
+        //ImageCropperModule
         //BrowserModule
     ],
     declarations: [
